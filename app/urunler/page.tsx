@@ -22,6 +22,16 @@ export const metadata: Metadata = {
   title: "Ürünler",
   description:
     "Kayasan Otomotiv ürün grupları: mekanik, elektrik, kaporta, triger setleri, ön takım parçaları, bakım malzemeleri ve VAG grubu araçlara özel yedek parça çözümleri.",
+  alternates: {
+    canonical: "/urunler",
+  },
+  openGraph: {
+    title: "Ürünler | Kayasan Otomotiv",
+    description:
+      "Volkswagen, Audi, Seat, Skoda ve Porsche araçlar için mekanik, elektrik, kaporta ve bakım ürünleri.",
+    url: `${siteConfig.domain}/urunler`,
+    type: "website",
+  },
 };
 
 const productHighlights = [
@@ -204,11 +214,11 @@ export default function ProductsPage() {
                 <div className="mt-6 space-y-3 text-zinc-200">
                   <div className="inline-flex items-start gap-2">
                     <CheckCircle2 size={18} className="mt-0.5 text-green-400" />
-                    Hemen bizimle iletişime geç. 
+                    Hemen bizimle iletişime geç.
                   </div>
                   <div className="inline-flex items-start gap-2">
                     <CheckCircle2 size={18} className="mt-0.5 text-green-400" />
-                    Aracının Şasi numarasına göre ihtiyacın olan parçaları doğru şekilde tespit edelim. 
+                    Aracının Şasi numarasına göre ihtiyacın olan parçaları doğru şekilde tespit edelim.
                   </div>
                   <div className="inline-flex items-start gap-2">
                     <CheckCircle2 size={18} className="mt-0.5 text-green-400" />

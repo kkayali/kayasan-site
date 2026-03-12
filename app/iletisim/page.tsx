@@ -1,5 +1,5 @@
-import Image from "next/image";
 import type { Metadata } from "next";
+import Image from "next/image";
 import {
   Clock3,
   Facebook,
@@ -17,6 +17,24 @@ export const metadata: Metadata = {
   title: "İletişim",
   description:
     "Kayasan Otomotiv iletişim sayfası. Telefon, WhatsApp, adres, çalışma saatleri ve harita bilgileri.",
+  alternates: {
+    canonical: "/iletisim",
+  },
+    openGraph: {
+    title: "İletişim | Kayasan Otomotiv",
+    description:
+      "Telefon, WhatsApp, adres, sosyal medya ve yol tarifi bilgileriyle bize ulaşın.",
+    url: `${siteConfig.domain}/iletisim`,
+    type: "website",
+    images: [
+      {
+        url: `${siteConfig.domain}${siteConfig.ogImage}`,
+        width: 1200,
+        height: 630,
+        alt: "Kayasan Otomotiv İletişim",
+      },
+    ],
+  },
 };
 
 export default function ContactPage() {

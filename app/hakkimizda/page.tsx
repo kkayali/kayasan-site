@@ -8,6 +8,24 @@ export const metadata: Metadata = {
   title: "Hakkımızda",
   description:
     "Kayasan Otomotiv hakkında kurumsal bilgi, marka geçmişi, VAG grubu uzmanlığı ve hizmet anlayışı.",
+  alternates: {
+    canonical: "/hakkimizda",
+  },
+      openGraph: {
+    title: "Hakkımızda | Kayasan Otomotiv",
+    description:
+      "1993’ten bu yana VAG grubu araçlara yönelik güvenilir yedek parça tedariği sağlayan köklü firma.",
+    url: `${siteConfig.domain}/hakkimizda`,
+    type: "article",
+    images: [
+      {
+        url: `${siteConfig.domain}${siteConfig.ogImage}`,
+        width: 1200,
+        height: 630,
+        alt: "Kayasan Otomotiv Hakkımızda",
+      },
+    ],
+  },
 };
 
 const infoCards = [
@@ -36,7 +54,7 @@ export default function AboutPage() {
           <Reveal>
             <SectionTitle
               eyebrow="Biz Kimiz ?"
-              title={`${siteConfig.companyName} `}
+              title={`${siteConfig.companyName}`}
               description="1993’ten bu yana VAG grubu araçlara yönelik güvenilir yedek parça tedariği sağlayan köklü bir işletmeyiz."
             />
           </Reveal>

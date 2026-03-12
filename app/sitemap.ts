@@ -1,20 +1,33 @@
-export default function sitemap() {
+import type { MetadataRoute } from "next";
+
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.kayasanotomotiv.com";
+
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://www.kayasanotomotiv.com",
+      url: `${baseUrl}/`,
       lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 1,
     },
     {
-      url: "https://www.kayasanotomotiv.com/hakkimizda",
+      url: `${baseUrl}/hakkimizda`,
       lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     {
-      url: "https://www.kayasanotomotiv.com/urunler",
+      url: `${baseUrl}/urunler`,
       lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
     {
-      url: "https://www.kayasanotomotiv.com/iletisim",
+      url: `${baseUrl}/iletisim`,
       lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
   ];
 }

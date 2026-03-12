@@ -1,6 +1,8 @@
 export const siteConfig = {
   companyName: "Kayasan Otomotiv Yedek Parça",
 
+  foundedYear: "1993",
+
   shortDescription:
     "1993 yılından bu yana İstanbul Cevizlibağ Akınsal Sanayi Sitesi’nde faaliyet gösteren Kayasan Otomotiv, Volkswagen, Audi, Seat, Skoda ve Porsche araçlar için mekanik, kaporta ve elektrik yedek parçalarının satışını gerçekleştirmektedir.",
 
@@ -74,5 +76,37 @@ export const siteConfig = {
       answer:
         "Evet, Türkiye’nin dört bir yanındaki müşterilerimize hızlı ve doğru parça tedariği sağlamaya özen gösteriyoruz.",
     },
+  ],
+    ogImage: "/og-image.jpg",
+
+  city: "İstanbul",
+  district: "Zeytinburnu",
+  neighborhood: "Maltepe",
+  areaServedText: "İstanbul ve Türkiye geneli",
+
+  geo: {
+    latitude: "41.0163",
+    longitude: "28.9087",
+  },
+
+  primaryKeywords: [
+    "Kayasan Otomotiv",
+    "Kayasan Otomotiv Yedek Parça",
+    "Volkswagen yedek parça",
+    "Audi yedek parça",
+    "Seat yedek parça",
+    "Skoda yedek parça",
+    "Porsche yedek parça",
+    "VAG grubu yedek parça",
+    "Cevizlibağ yedek parça",
+    "Zeytinburnu yedek parça",
+    "otomotiv yedek parça",
+    "istanbul yedek parça",
+    "araba yedek parça",
+    "kargo yedek parça",
+    "ibiza yedek parça",
+    "passat yedek parça",
+    "oto yedek parça",
+    "otomotiv yedek parça mağazası",
   ],
 };

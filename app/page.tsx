@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import {
   ArrowRight,
@@ -19,6 +20,30 @@ import SectionTitle from "@/components/SectionTitle";
 import BrandsRow from "@/components/BrandsRow";
 import Reveal from "@/components/Reveal";
 import { siteConfig } from "@/data/site";
+
+export const metadata: Metadata = {
+  title: "Ana Sayfa",
+  description:
+    "Kayasan Otomotiv; 1993’ten bu yana Volkswagen, Audi, Seat, Skoda ve Porsche marka araçlar için mekanik, kaporta ve elektrik yedek parça tedariği sağlayan güvenilir otomotiv firmasıdır.",
+  alternates: {
+    canonical: "/",
+  },
+   openGraph: {
+    title: "Kayasan Otomotiv | VAG Grubu Yedek Parça",
+    description:
+      "Volkswagen, Audi, Seat, Skoda ve Porsche araçlara yönelik mekanik, kaporta ve elektrik yedek parça çözümleri.",
+    url: siteConfig.domain,
+    type: "website",
+    images: [
+      {
+        url: `${siteConfig.domain}${siteConfig.ogImage}`,
+        width: 1200,
+        height: 630,
+        alt: "Kayasan Otomotiv VAG Grubu Yedek Parça",
+      },
+    ],
+  },
+};
 
 const features = [
   {
@@ -120,8 +145,21 @@ export default function Home() {
 
   return (
     <main>
-      <section className="relative overflow-hidden border-b border-zinc-200 bg-[radial-gradient(circle_at_top_right,_rgba(63,63,70,0.10),_transparent_35%),linear-gradient(to_bottom,_#fafafa,_#ffffff)]">
-        <div className="soft-grid-bg absolute inset-0 opacity-40" />
+      <section className="relative overflow-hidden border-b border-zinc-200 bg-[linear-gradient(to_bottom,_#fafafa,_#ffffff)]">
+        <div className="absolute inset-0">
+          <Image
+            src="/hero/raf-bg.jpg"
+            alt="Kayasan Otomotiv mağaza içi raf görünümü"
+            fill
+            priority
+            className="object-cover object-center opacity-100 md:opacity-100"
+            sizes="100vw"
+          />
+        </div>
+
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/78 md:from-white md:via-white/88 md:to-white/70" />
+        <div className="soft-grid-bg absolute inset-0 opacity-30" />
+
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-14 md:grid-cols-2 md:gap-14 md:py-24">
           <Reveal>
             <div className="flex flex-col justify-center">
@@ -137,7 +175,7 @@ export default function Home() {
                   />
                 </div>
 
-                <span className="inline-flex w-fit rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-700">
+                <span className="inline-flex w-fit rounded-full border border-zinc-300 bg-white/95 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-700 backdrop-blur-sm">
                   Yedek Parçanın Tek Adresi
                 </span>
               </div>
@@ -146,7 +184,7 @@ export default function Home() {
                 VAG grubu araçlar için güvenilir yedek parça adresi
               </h1>
 
-              <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-600 md:text-lg">
+              <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
                 Kayasan Otomotiv, 1993 yılında İstanbul Cevizlibağ Akınsal Sanayi
                 Sitesi’nde kurulmuş köklü bir otomotiv yedek parça işletmesidir.
                 Volkswagen, Audi, Seat, Skoda ve Porsche marka araçlara yönelik
@@ -154,7 +192,7 @@ export default function Home() {
                 gerçekleştirir.
               </p>
 
-              <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-600 md:text-lg">
+              <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
                 Doğru parça, hızlı tedarik ve müşteri memnuniyetini esas alan hizmet
                 anlayışımızla Türkiye’nin dört bir yanındaki müşterilerimize güvenilir
                 çözümler sunuyoruz.
@@ -183,7 +221,7 @@ export default function Home() {
                   href={siteConfig.directionsUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-zinc-300 bg-white/95 px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100"
                 >
                   <Route size={18} />
                   Yol Tarifi Al
@@ -212,7 +250,7 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="mt-8 flex flex-col gap-3 text-sm text-zinc-600 sm:flex-row sm:flex-wrap sm:gap-5">
+              <div className="mt-8 flex flex-col gap-3 text-sm text-zinc-700 sm:flex-row sm:flex-wrap sm:gap-5">
                 <div className="inline-flex items-center gap-2">
                   <CheckCircle2 size={16} className="text-zinc-900" />
                   1993’ten beri tecrübe
@@ -230,7 +268,7 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={120}>
-            <div className="rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-[0_20px_80px_rgba(0,0,0,0.08)]">
+            <div className="rounded-[2rem] border border-zinc-200 bg-white/92 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.08)] backdrop-blur-[2px]">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-5">
                   <p className="text-sm text-zinc-500">Uzmanlık</p>
@@ -351,15 +389,15 @@ export default function Home() {
                     key={`${brand.name}-${index}`}
                     className="flex h-24 w-[180px] shrink-0 items-center justify-center rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
                   >
-                   <div className={`relative w-full ${brand.logoClass ?? "h-12"}`}>
-  <Image
-    src={brand.src}
-    alt={brand.name}
-    fill
-    className="object-contain"
-    sizes="180px"
-  />
-</div>
+                    <div className={`relative w-full ${brand.logoClass ?? "h-12"}`}>
+                      <Image
+                        src={brand.src}
+                        alt={brand.name}
+                        fill
+                        className="object-contain"
+                        sizes="180px"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>

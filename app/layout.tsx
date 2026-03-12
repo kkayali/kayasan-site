@@ -31,12 +31,29 @@ export const metadata: Metadata = {
     "Zeytinburnu yedek parça",
     "VAG grubu yedek parça",
   ],
-  icons: {
-    icon: siteConfig.miniLogoPath,
-    shortcut: siteConfig.miniLogoPath,
-    apple: siteConfig.miniLogoPath,
+  alternates: {
+    canonical: "/",
   },
-  openGraph: {
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: ["/favicon.png"],
+    apple: [{ url: "/favicon.png", type: "image/png" }],
+  },
+    openGraph: {
     title: "Kayasan Otomotiv",
     description: siteConfig.shortDescription,
     url: siteConfig.domain,
@@ -45,18 +62,24 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: siteConfig.logoPath,
-        width: 512,
-        height: 512,
-        alt: "Kayasan Otomotiv Logo",
+        url: `${siteConfig.domain}${siteConfig.ogImage}`,
+        width: 1200,
+        height: 630,
+        alt: "Kayasan Otomotiv Yedek Parça",
       },
     ],
   },
-  twitter: {
+    twitter: {
     card: "summary_large_image",
     title: "Kayasan Otomotiv",
     description: siteConfig.shortDescription,
-    images: [siteConfig.logoPath],
+    images: [`${siteConfig.domain}${siteConfig.ogImage}`],
+  },
+    other: {
+    "geo.region": "TR-34",
+    "geo.placename": `${siteConfig.district}, ${siteConfig.city}`,
+    "geo.position": `${siteConfig.geo.latitude};${siteConfig.geo.longitude}`,
+    ICBM: `${siteConfig.geo.latitude}, ${siteConfig.geo.longitude}`,
   },
 };
 
@@ -68,6 +91,8 @@ const localBusinessSchema = {
   url: siteConfig.domain,
   telephone: siteConfig.phoneDisplay,
   image: [`${siteConfig.domain}${siteConfig.logoPath}`],
+  logo: `${siteConfig.domain}${siteConfig.logoPath}`,
+  priceRange: "$$",
   address: {
     "@type": "PostalAddress",
     streetAddress: siteConfig.addressLine,
@@ -78,11 +103,43 @@ const localBusinessSchema = {
   },
   areaServed: "Türkiye",
   sameAs: [siteConfig.instagramUrl, siteConfig.facebookUrl],
+  hasMap: siteConfig.directionsUrl,
+  foundingDate: siteConfig.foundedYear,
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+      opens: "08:30",
+      closes: "19:00",
+    },
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    telephone: siteConfig.phoneDisplay,
+    availableLanguage: ["Turkish"],
+  },
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: siteConfig.reviewSummary.ratingValue,
     reviewCount: siteConfig.reviewSummary.reviewCount,
   },
+};
+
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: siteConfig.companyName,
+  url: siteConfig.domain,
+  description: siteConfig.shortDescription,
+  inLanguage: "tr-TR",
 };
 
 const faqSchema = {
@@ -119,6 +176,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body className="bg-white text-zinc-900 antialiased">
+        <JsonLd data={webSiteSchema} />
         <JsonLd data={localBusinessSchema} />
         <JsonLd data={faqSchema} />
         <JsonLd data={productSchema} />
