@@ -184,13 +184,9 @@ export default function Home() {
                 VAG grubu araçlar için güvenilir yedek parça adresi
               </h1>
 
-              <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
-                Kayasan Otomotiv, 1993 yılında İstanbul Cevizlibağ Akınsal Sanayi
-                Sitesi’nde kurulmuş köklü bir otomotiv yedek parça işletmesidir.
-                Volkswagen, Audi, Seat, Skoda ve Porsche marka araçlara yönelik
-                mekanik, kaporta ve elektrik yedek parçalarının satışını
-                gerçekleştirir.
-              </p>
+             <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
+  Kayasan Otomotiv, Volkswagen, Skoda, Seat, Audi ve Porsche marka araçların bütün mekanik - kaporta - elektrik yedek parçacısıyız.
+</p>
 
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
                 Doğru parça, hızlı tedarik ve müşteri memnuniyetini esas alan hizmet

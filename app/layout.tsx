@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
     shortcut: ["/favicon.png"],
     apple: [{ url: "/favicon.png", type: "image/png" }],
   },
-    openGraph: {
+  openGraph: {
     title: "Kayasan Otomotiv",
     description: siteConfig.shortDescription,
     url: siteConfig.domain,
@@ -69,13 +70,13 @@ export const metadata: Metadata = {
       },
     ],
   },
-    twitter: {
+  twitter: {
     card: "summary_large_image",
     title: "Kayasan Otomotiv",
     description: siteConfig.shortDescription,
     images: [`${siteConfig.domain}${siteConfig.ogImage}`],
   },
-    other: {
+  other: {
     "geo.region": "TR-34",
     "geo.placename": `${siteConfig.district}, ${siteConfig.city}`,
     "geo.position": `${siteConfig.geo.latitude};${siteConfig.geo.longitude}`,
@@ -176,10 +177,24 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body className="bg-white text-zinc-900 antialiased">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-3F3F1NVEVG"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-3F3F1NVEVG');
+          `}
+        </Script>
+
         <JsonLd data={webSiteSchema} />
         <JsonLd data={localBusinessSchema} />
         <JsonLd data={faqSchema} />
         <JsonLd data={productSchema} />
+
         <Navbar />
         {children}
         <Footer />
