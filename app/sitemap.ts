@@ -1,14 +1,13 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.kayasanotomotiv.com";
-
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = "https://www.kayasanotomotiv.com";
+
   return [
     {
-      url: `${baseUrl}/`,
+      url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: "daily",
       priority: 1,
     },
     {

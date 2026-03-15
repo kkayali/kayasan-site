@@ -103,7 +103,7 @@ const localBusinessSchema = {
     addressCountry: siteConfig.country,
   },
   areaServed: "Türkiye",
-  sameAs: [siteConfig.instagramUrl, siteConfig.facebookUrl],
+  sameAs: [siteConfig.instagramUrl, siteConfig.facebookUrl].filter(Boolean),
   hasMap: siteConfig.directionsUrl,
   foundingDate: siteConfig.foundedYear,
   openingHoursSpecification: [
@@ -158,15 +158,20 @@ const faqSchema = {
 
 const productSchema = {
   "@context": "https://schema.org",
-  "@type": "ItemList",
+  "@type": "CollectionPage",
   name: "Yedek Parça Ürün Kategorileri",
-  itemListElement: siteConfig.featuredCategories.map((item, index) => ({
-    "@type": "Product",
-    position: index + 1,
-    name: item,
-    brand: siteConfig.companyName,
-    category: "Otomotiv Yedek Parça",
-  })),
+  url: `${siteConfig.domain}/urunler`,
+  description:
+    "Kayasan Otomotiv ürün grupları: mekanik, elektrik, kaporta, triger setleri, ön takım parçaları, bakım malzemeleri ve VAG grubu araçlara özel yedek parça çözümleri.",
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: siteConfig.featuredCategories.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item,
+      url: `${siteConfig.domain}/urunler`,
+    })),
+  },
 };
 
 export default function RootLayout({
