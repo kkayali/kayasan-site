@@ -123,35 +123,4 @@ img {
     animation: none !important;
     transform: translateX(0) !important;
   }
-  @keyframes manufacturerMarqueeRight {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
-.manufacturer-marquee-track {
-  width: max-content;
-  animation: manufacturerMarqueeRight 55s linear infinite;
-  will-change: transform;
-}
-
-.manufacturer-marquee:hover .manufacturer-marquee-track {
-  animation-play-state: paused;
-}
-
-@media (max-width: 768px) {
-  .manufacturer-marquee-track {
-    animation-duration: 42s;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .manufacturer-marquee-track {
-    animation: none !important;
-    transform: translateX(0) !important;
-  }
-}
 }

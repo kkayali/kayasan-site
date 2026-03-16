@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRight,
   Car,
@@ -15,7 +16,6 @@ import {
   Route,
   Wrench,
 } from "lucide-react";
-import Link from "next/link";
 import SectionTitle from "@/components/SectionTitle";
 import BrandsRow from "@/components/BrandsRow";
 import Reveal from "@/components/Reveal";
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-   openGraph: {
+  openGraph: {
     title: "Kayasan Otomotiv | VAG Grubu Yedek Parça",
     description:
       "Volkswagen, Audi, Seat, Skoda ve Porsche araçlara yönelik mekanik, kaporta ve elektrik yedek parça çözümleri.",
@@ -69,6 +69,39 @@ const features = [
     description:
       "1993’ten bu yana süregelen hizmet anlayışımızın temelinde güven, dürüstlük ve müşteri memnuniyeti bulunur.",
     icon: ShieldCheck,
+  },
+];
+
+const brandPages = [
+  {
+    name: "Volkswagen",
+    href: "/volkswagen-yedek-parca",
+    description:
+      "Passat, Golf, Polo, Jetta, Tiguan, Caddy ve diğer Volkswagen modelleri için yedek parça içerikleri.",
+  },
+  {
+    name: "Audi",
+    href: "/audi-yedek-parca",
+    description:
+      "A3, A4, A5, A6, Q serisi ve diğer Audi modelleri için parça çözümleri.",
+  },
+  {
+    name: "Skoda",
+    href: "/skoda-yedek-parca",
+    description:
+      "Octavia, Superb, Fabia, Scala, Kamiq ve diğer Skoda modelleri için yedek parça desteği.",
+  },
+  {
+    name: "Seat",
+    href: "/seat-yedek-parca",
+    description:
+      "Leon, Ibiza, Toledo, Ateca ve diğer Seat modelleri için doğru parça yönlendirmesi.",
+  },
+  {
+    name: "Porsche",
+    href: "/porsche-yedek-parca",
+    description:
+      "Cayenne, Macan, Panamera, Taycan ve diğer Porsche modelleri için güvenilir tedarik.",
   },
 ];
 
@@ -184,9 +217,10 @@ export default function Home() {
                 VAG grubu araçlar için güvenilir yedek parça adresi
               </h1>
 
-             <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
-  Kayasan Otomotiv, Volkswagen, Skoda, Seat, Audi ve Porsche marka araçların bütün mekanik - kaporta - elektrik yedek parçacısıyız.
-</p>
+              <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
+                Kayasan Otomotiv, Volkswagen, Skoda, Seat, Audi ve Porsche marka
+                araçların bütün mekanik - kaporta - elektrik yedek parçacısıyız.
+              </p>
 
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
                 Doğru parça, hızlı tedarik ve müşteri memnuniyetini esas alan hizmet
@@ -357,6 +391,49 @@ export default function Home() {
       </section>
 
       <BrandsRow />
+
+      <section className="mx-auto max-w-7xl px-6 py-14 md:py-16">
+        <Reveal>
+          <SectionTitle
+            eyebrow="Marka Sayfaları"
+            title="Markaya Göre Yedek Parça Sayfalarımız"
+            description="Volkswagen, Audi, Seat, Skoda ve Porsche için hazırladığımız özel sayfalardan model ve parça odaklı içeriklere ulaşabilirsiniz."
+          />
+        </Reveal>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {brandPages.map((item, index) => (
+            <Reveal key={item.href} delay={index * 60}>
+              <Link
+                href={item.href}
+                className="group block rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                      Marka Bazlı İçerik
+                    </p>
+                    <h3 className="mt-3 text-2xl font-semibold tracking-tight text-zinc-900">
+                      {item.name} Yedek Parça
+                    </h3>
+                  </div>
+
+                  <div className="rounded-2xl bg-zinc-100 p-3 transition group-hover:bg-zinc-900 group-hover:text-white">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <p className="mt-4 leading-8 text-zinc-600">{item.description}</p>
+
+                <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-zinc-900">
+                  Sayfayı İncele
+                  <ArrowRight size={16} />
+                </div>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       <section className="border-b border-zinc-200 bg-white">
         <div className="mx-auto max-w-7xl px-6 py-12 md:py-14">

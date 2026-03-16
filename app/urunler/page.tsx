@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
@@ -133,6 +134,39 @@ const catalogItems = [
   },
 ];
 
+const brandPages = [
+  {
+    name: "Volkswagen",
+    href: "/volkswagen-yedek-parca",
+    description:
+      "Passat, Golf, Polo, Jetta, Tiguan, Caddy ve diğer Volkswagen modelleri için yedek parça çözümleri.",
+  },
+  {
+    name: "Audi",
+    href: "/audi-yedek-parca",
+    description:
+      "A3, A4, A5, A6, Q serisi ve diğer Audi modellerine uygun yedek parça desteği.",
+  },
+  {
+    name: "Skoda",
+    href: "/skoda-yedek-parca",
+    description:
+      "Octavia, Superb, Fabia, Scala, Kamiq ve diğer Skoda modelleri için yedek parça tedariği.",
+  },
+  {
+    name: "Seat",
+    href: "/seat-yedek-parca",
+    description:
+      "Leon, Ibiza, Toledo, Ateca ve diğer Seat modelleri için doğru parça yönlendirmesi.",
+  },
+  {
+    name: "Porsche",
+    href: "/porsche-yedek-parca",
+    description:
+      "Cayenne, Macan, Panamera, Taycan ve diğer Porsche modelleri için güvenilir parça desteği.",
+  },
+];
+
 const manufacturerLogos = [
   { name: "Bosch", src: "/markalogo/bosch.png", logoClass: "h-14" },
   { name: "Brembo", src: "/markalogo/brembo.png", logoClass: "h-14" },
@@ -208,7 +242,7 @@ export default function ProductsPage() {
                 </div>
 
                 <h3 className="mt-5 text-2xl font-bold tracking-tight">
-                  Aracın için parça mı arıyorsun ?
+                  Aracın için parça mı arıyorsun?
                 </h3>
 
                 <div className="mt-6 space-y-3 text-zinc-200">
@@ -218,15 +252,17 @@ export default function ProductsPage() {
                   </div>
                   <div className="inline-flex items-start gap-2">
                     <CheckCircle2 size={18} className="mt-0.5 text-green-400" />
-                    Aracının Şasi numarasına göre ihtiyacın olan parçaları doğru şekilde tespit edelim.
+                    Aracının şasi numarasına göre ihtiyacın olan parçaları doğru
+                    şekilde tespit edelim.
                   </div>
                   <div className="inline-flex items-start gap-2">
                     <CheckCircle2 size={18} className="mt-0.5 text-green-400" />
-                    Sana istediğin ürünlerin marka ve fiyatlarını şeffaf şekilde gösterelim.
+                    Sana istediğin ürünlerin marka ve fiyatlarını şeffaf şekilde
+                    gösterelim.
                   </div>
                   <div className="inline-flex items-start gap-2">
                     <CheckCircle2 size={18} className="mt-0.5 text-green-400" />
-                    Siparişini oluştur , İSTER GEL AL , İSTERSEN BİZ SANA KARGOLAYALIM.
+                    Siparişini oluştur, ister gel al, istersen biz sana kargolayalım.
                   </div>
                 </div>
 
@@ -256,6 +292,49 @@ export default function ProductsPage() {
       </section>
 
       <BrandsRow />
+
+      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
+        <Reveal>
+          <SectionTitle
+            eyebrow="Marka Bazlı Sayfalar"
+            title="Aracınızın Markasına Göre Yedek Parça Sayfalarımız"
+            description="Volkswagen, Audi, Seat, Skoda ve Porsche marka araçlar için hazırladığımız özel sayfalardan model ve parça odaklı içeriklere ulaşabilirsiniz."
+          />
+        </Reveal>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {brandPages.map((item, index) => (
+            <Reveal key={item.href} delay={index * 60}>
+              <Link
+                href={item.href}
+                className="group block rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                      Marka Sayfası
+                    </p>
+                    <h3 className="mt-3 text-2xl font-semibold tracking-tight text-zinc-900">
+                      {item.name} Yedek Parça
+                    </h3>
+                  </div>
+
+                  <div className="rounded-2xl bg-zinc-100 p-3 transition group-hover:bg-zinc-900 group-hover:text-white">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <p className="mt-4 leading-8 text-zinc-600">{item.description}</p>
+
+                <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-zinc-900">
+                  Sayfayı İncele
+                  <ArrowRight size={16} />
+                </div>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16 md:py-24">
         <Reveal>
