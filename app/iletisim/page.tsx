@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/iletisim",
   },
-    openGraph: {
+  openGraph: {
     title: "İletişim | Kayasan Otomotiv",
     description:
       "Telefon, WhatsApp, adres, sosyal medya ve yol tarifi bilgileriyle bize ulaşın.",
@@ -45,34 +45,64 @@ export default function ContactPage() {
   return (
     <main>
       <section className="border-b border-zinc-200 bg-zinc-50">
-        <div className="mx-auto max-w-7xl px-6 py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-6 py-10 md:py-14">
           <Reveal>
-            <div className="mb-8 flex items-center justify-center gap-4">
-              <div className="relative h-20 w-20 overflow-hidden rounded-full border border-zinc-200 bg-white shadow-sm">
-                <Image
-                  src={siteConfig.miniLogoPath}
-                  alt={`${siteConfig.companyName} mini logo`}
-                  fill
-                  className="object-contain p-0.5"
-                  sizes="80px"
-                  priority
-                />
+            <div className="mx-auto max-w-4xl text-center">
+              <div className="mb-4 flex items-center justify-center">
+                <div className="relative h-16 w-16 overflow-hidden rounded-full border border-zinc-200 bg-white shadow-sm md:h-18 md:w-18">
+                  <Image
+                    src={siteConfig.miniLogoPath}
+                    alt={`${siteConfig.companyName} mini logo`}
+                    fill
+                    className="object-contain p-0.5"
+                    sizes="64px"
+                    priority
+                  />
+                </div>
+              </div>
+
+              <SectionTitle
+                eyebrow="İletişim"
+                title="Bize Ulaşın"
+                description="Sipariş, ürün bilgisi ve hızlı iletişim için telefon, WhatsApp, adres ve sosyal medya kanallarımızdan bize kolayca ulaşabilirsiniz."
+                center
+              />
+
+              <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
+                <a
+                  href={`tel:${siteConfig.phoneHref}`}
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
+                >
+                  <Phone size={17} />
+                  Hemen Ara
+                </a>
+
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-green-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
+                >
+                  <MessageCircle size={17} />
+                  WhatsApp ile Yazın
+                </a>
+
+                <a
+                  href={siteConfig.directionsUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100"
+                >
+                  <Route size={17} />
+                  Yol Tarifi Al
+                </a>
               </div>
             </div>
-          </Reveal>
-
-          <Reveal delay={80}>
-            <SectionTitle
-              eyebrow="İletişim"
-              title="Bize Ulaşın"
-              description="Sipariş, ürün bilgisi ve hızlı iletişim için telefon, WhatsApp, adres ve sosyal medya kanallarımızdan bize ulaşabilirsiniz."
-              center
-            />
           </Reveal>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-10 md:py-12">
         <div className="grid gap-8 md:grid-cols-2">
           <Reveal>
             <div className="rounded-[2rem] border border-zinc-200 bg-white p-8 shadow-sm">

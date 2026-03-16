@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  ChevronDown,
   Facebook,
   Instagram,
   Menu,
@@ -16,12 +17,21 @@ import { siteConfig } from "@/data/site";
 const navItems = [
   { href: "/", label: "Ana Sayfa" },
   { href: "/hakkimizda", label: "Hakkımızda" },
-  { href: "/urunler", label: "Ürünler" },
   { href: "/iletisim", label: "İletişim" },
+];
+
+const productLinks = [
+  { href: "/urunler", label: "Tüm Ürünler" },
+  { href: "/volkswagen-yedek-parca", label: "Volkswagen Yedek Parça" },
+  { href: "/audi-yedek-parca", label: "Audi Yedek Parça" },
+  { href: "/skoda-yedek-parca", label: "Skoda Yedek Parça" },
+  { href: "/seat-yedek-parca", label: "Seat Yedek Parça" },
+  { href: "/porsche-yedek-parca", label: "Porsche Yedek Parça" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
 
   const whatsappLink = `${siteConfig.whatsappHref}?text=${encodeURIComponent(
     siteConfig.whatsappMessage
@@ -55,7 +65,7 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-5 md:flex">
-          {navItems.map((item) => (
+          {navItems.slice(0, 2).map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -64,6 +74,50 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
+
+          <div
+            className="group relative"
+            onMouseEnter={() => setProductsOpen(true)}
+            onMouseLeave={() => setProductsOpen(false)}
+          >
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 text-sm font-medium text-zinc-700 transition hover:text-zinc-950"
+            >
+              Ürünler
+              <ChevronDown size={16} className="mt-[1px]" />
+            </button>
+
+            <div
+              className={`absolute left-1/2 top-full z-50 mt-3 w-[280px] -translate-x-1/2 rounded-2xl border border-zinc-200 bg-white p-2 shadow-xl transition-all duration-200 ${
+                productsOpen
+                  ? "visible translate-y-0 opacity-100"
+                  : "invisible -translate-y-1 opacity-0"
+              }`}
+            >
+              {productLinks.map((item, index) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={[
+                    "block rounded-xl px-4 py-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 hover:text-zinc-950",
+                    index !== productLinks.length - 1
+                      ? "border-b border-zinc-100"
+                      : "",
+                  ].join(" ")}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <Link
+            href={navItems[2].href}
+            className="text-sm font-medium text-zinc-700 transition hover:text-zinc-950"
+          >
+            {navItems[2].label}
+          </Link>
 
           <div className="flex items-center gap-2">
             <a
@@ -119,16 +173,45 @@ export default function Navbar() {
       {open && (
         <div className="border-t border-zinc-200 bg-white md:hidden">
           <div className="mx-auto flex max-w-7xl flex-col px-4 py-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="border-b border-zinc-100 py-3 text-sm font-medium text-zinc-700"
-              >
-                {item.label}
-              </Link>
-            ))}
+            <Link
+              href="/"
+              onClick={() => setOpen(false)}
+              className="border-b border-zinc-100 py-3 text-sm font-medium text-zinc-700"
+            >
+              Ana Sayfa
+            </Link>
+
+            <Link
+              href="/hakkimizda"
+              onClick={() => setOpen(false)}
+              className="border-b border-zinc-100 py-3 text-sm font-medium text-zinc-700"
+            >
+              Hakkımızda
+            </Link>
+
+            <div className="border-b border-zinc-100 py-3">
+              <p className="mb-3 text-sm font-semibold text-zinc-900">Ürünler</p>
+              <div className="flex flex-col">
+                {productLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className="py-2 text-sm text-zinc-700"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <Link
+              href="/iletisim"
+              onClick={() => setOpen(false)}
+              className="border-b border-zinc-100 py-3 text-sm font-medium text-zinc-700"
+            >
+              İletişim
+            </Link>
 
             <div className="mt-4 flex items-center gap-3">
               <a
