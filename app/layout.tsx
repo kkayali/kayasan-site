@@ -47,12 +47,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [
-      { url: "/favicon.png", type: "image/png" },
-      { url: "/favicon.ico" },
-    ],
-    shortcut: ["/favicon.png"],
-    apple: [{ url: "/favicon.png", type: "image/png" }],
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+    shortcut: "/icon.png",
   },
   openGraph: {
     title: "Kayasan Otomotiv",

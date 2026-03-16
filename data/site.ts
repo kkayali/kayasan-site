@@ -16,7 +16,7 @@ export const siteConfig = {
   instagramUrl: "https://www.instagram.com/otoyedekparca_tr/",
   facebookUrl: "https://www.facebook.com/kayasan.vag/",
 
-  domain: "https://www.kayasanotomotiv.com",
+  domain: "https://kayasanotomotiv.com",
 
   logoPath: "/logo/kayasan-logo.png",
   miniLogoPath: "/logo/kayasan-mini-logo.png",
@@ -77,7 +77,8 @@ export const siteConfig = {
         "Evet, Türkiye’nin dört bir yanındaki müşterilerimize hızlı ve doğru parça tedariği sağlamaya özen gösteriyoruz.",
     },
   ],
-    ogImage: "/og-image.jpg",
+
+  ogImage: "/og-image.jpg",
 
   city: "İstanbul",
   district: "Zeytinburnu",
