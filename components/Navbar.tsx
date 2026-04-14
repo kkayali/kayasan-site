@@ -12,7 +12,10 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import TrackedLink from "@/components/TrackedLink";
 import { siteConfig } from "@/data/site";
+
+const CONVERSION_ID = "AW-18057403546/PdT-CL-voZscEJq5uKJD";
 
 const navItems = [
   { href: "/", label: "Ana Sayfa" },
@@ -141,23 +144,25 @@ export default function Navbar() {
             </a>
           </div>
 
-          <a
+          <TrackedLink
             href={whatsappLink}
             target="_blank"
             rel="noreferrer"
+            conversionId={CONVERSION_ID}
             className="inline-flex items-center gap-2 rounded-2xl border border-green-200 bg-green-50 px-4 py-2 text-sm font-semibold text-green-700 transition hover:bg-green-100"
           >
             <MessageCircle size={16} />
             WhatsApp
-          </a>
+          </TrackedLink>
 
-          <a
+          <TrackedLink
             href={`tel:${siteConfig.phoneHref}`}
+            conversionId={CONVERSION_ID}
             className="inline-flex items-center gap-2 rounded-2xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-700"
           >
             <Phone size={16} />
             Ara
-          </a>
+          </TrackedLink>
         </nav>
 
         <button
@@ -235,23 +240,25 @@ export default function Navbar() {
               </a>
             </div>
 
-            <a
+            <TrackedLink
               href={whatsappLink}
               target="_blank"
               rel="noreferrer"
+              conversionId={CONVERSION_ID}
               className="mt-4 inline-flex items-center justify-center gap-2 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700"
             >
               <MessageCircle size={16} />
               WhatsApp ile Yazın
-            </a>
+            </TrackedLink>
 
-            <a
+            <TrackedLink
               href={`tel:${siteConfig.phoneHref}`}
+              conversionId={CONVERSION_ID}
               className="mt-3 inline-flex items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white"
             >
               <Phone size={16} />
               {siteConfig.phoneDisplay}
-            </a>
+            </TrackedLink>
           </div>
         </div>
       )}

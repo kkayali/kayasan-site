@@ -7,7 +7,10 @@ import {
   MessageCircle,
   Phone,
 } from "lucide-react";
+import TrackedLink from "@/components/TrackedLink";
 import { siteConfig } from "@/data/site";
+
+const CONVERSION_ID = "AW-18057403546/PdT-CL-voZscEJq5uKJD";
 
 export default function Footer() {
   const whatsappLink = `${siteConfig.whatsappHref}?text=${encodeURIComponent(
@@ -42,23 +45,25 @@ export default function Footer() {
           </p>
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <a
+            <TrackedLink
               href={whatsappLink}
               target="_blank"
               rel="noreferrer"
+              conversionId={CONVERSION_ID}
               className="inline-flex items-center gap-2 rounded-2xl bg-green-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-600"
             >
               <MessageCircle size={16} />
               WhatsApp ile Yazın
-            </a>
+            </TrackedLink>
 
-            <a
+            <TrackedLink
               href={`tel:${siteConfig.phoneHref}`}
+              conversionId={CONVERSION_ID}
               className="inline-flex items-center gap-2 rounded-2xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-900"
             >
               <Phone size={16} />
               Hemen Arayın
-            </a>
+            </TrackedLink>
           </div>
 
           <div className="mt-5 flex items-center gap-3">
@@ -116,21 +121,26 @@ export default function Footer() {
           <div className="mt-4 space-y-4 text-zinc-400">
             <div className="flex items-start gap-3">
               <Phone size={18} className="mt-1" />
-              <a href={`tel:${siteConfig.phoneHref}`} className="hover:text-white">
+              <TrackedLink
+                href={`tel:${siteConfig.phoneHref}`}
+                conversionId={CONVERSION_ID}
+                className="hover:text-white"
+              >
                 {siteConfig.phoneDisplay}
-              </a>
+              </TrackedLink>
             </div>
 
             <div className="flex items-start gap-3">
               <MessageCircle size={18} className="mt-1 text-green-400" />
-              <a
+              <TrackedLink
                 href={whatsappLink}
                 target="_blank"
                 rel="noreferrer"
+                conversionId={CONVERSION_ID}
                 className="hover:text-white"
               >
                 WhatsApp üzerinden ulaşın
-              </a>
+              </TrackedLink>
             </div>
 
             <div className="flex items-start gap-3">

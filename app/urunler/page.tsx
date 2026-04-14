@@ -17,6 +17,7 @@ import {
 import SectionTitle from "@/components/SectionTitle";
 import BrandsRow from "@/components/BrandsRow";
 import Reveal from "@/components/Reveal";
+import TrackedLink from "@/components/TrackedLink";
 import { siteConfig } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -34,6 +35,8 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
+
+const CONVERSION_ID = "AW-18057403546/PdT-CL-voZscEJq5uKJD";
 
 const productHighlights = [
   {
@@ -267,23 +270,25 @@ export default function ProductsPage() {
                 </div>
 
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                  <a
+                  <TrackedLink
                     href={whatsappLink}
                     target="_blank"
                     rel="noreferrer"
+                    conversionId={CONVERSION_ID}
                     className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-green-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-600"
                   >
                     <MessageCircle size={16} />
                     WhatsApp ile Sor
-                  </a>
+                  </TrackedLink>
 
-                  <a
+                  <TrackedLink
                     href={`tel:${siteConfig.phoneHref}`}
+                    conversionId={CONVERSION_ID}
                     className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-200"
                   >
                     <Phone size={16} />
                     Hemen Ara
-                  </a>
+                  </TrackedLink>
                 </div>
               </div>
             </div>
@@ -495,23 +500,25 @@ export default function ProductsPage() {
                   />
 
                   <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <a
+                    <TrackedLink
                       href={whatsappLink}
                       target="_blank"
                       rel="noreferrer"
+                      conversionId={CONVERSION_ID}
                       className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-green-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
                     >
                       <MessageCircle size={18} />
                       WhatsApp ile Yazın
-                    </a>
+                    </TrackedLink>
 
-                    <a
+                    <TrackedLink
                       href={`tel:${siteConfig.phoneHref}`}
+                      conversionId={CONVERSION_ID}
                       className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
                     >
                       <Phone size={18} />
                       Hemen Ara
-                    </a>
+                    </TrackedLink>
 
                     <a
                       href={siteConfig.directionsUrl}
@@ -533,16 +540,17 @@ export default function ProductsPage() {
                     bize ulaşabilirsiniz.
                   </p>
 
-                  <a
+                  <TrackedLink
                     href={whatsappLink}
                     target="_blank"
                     rel="noreferrer"
+                    conversionId={CONVERSION_ID}
                     className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-green-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
                   >
                     <MessageCircle size={16} />
                     WhatsApp’tan Yazın
                     <ArrowRight size={16} />
-                  </a>
+                  </TrackedLink>
                 </div>
               </div>
             </div>

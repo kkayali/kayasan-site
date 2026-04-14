@@ -19,6 +19,7 @@ import {
 import SectionTitle from "@/components/SectionTitle";
 import BrandsRow from "@/components/BrandsRow";
 import Reveal from "@/components/Reveal";
+import TrackedLink from "@/components/TrackedLink";
 import { siteConfig } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -44,6 +45,8 @@ export const metadata: Metadata = {
     ],
   },
 };
+
+const CONVERSION_ID = "AW-18057403546/PdT-CL-voZscEJq5uKJD";
 
 const features = [
   {
@@ -229,23 +232,25 @@ export default function Home() {
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <a
+                <TrackedLink
                   href={`tel:${siteConfig.phoneHref}`}
+                  conversionId={CONVERSION_ID}
                   className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
                 >
                   <Phone size={18} />
                   Hemen Ara
-                </a>
+                </TrackedLink>
 
-                <a
+                <TrackedLink
                   href={whatsappLink}
                   target="_blank"
                   rel="noreferrer"
+                  conversionId={CONVERSION_ID}
                   className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-green-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
                 >
                   <MessageCircle size={18} />
                   WhatsApp ile Yazın
-                </a>
+                </TrackedLink>
 
                 <a
                   href={siteConfig.directionsUrl}
@@ -365,23 +370,25 @@ export default function Home() {
                   </p>
 
                   <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                    <a
+                    <TrackedLink
                       href={`tel:${siteConfig.phoneHref}`}
+                      conversionId={CONVERSION_ID}
                       className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-200"
                     >
                       <Phone size={16} />
                       Ara
-                    </a>
+                    </TrackedLink>
 
-                    <a
+                    <TrackedLink
                       href={whatsappLink}
                       target="_blank"
                       rel="noreferrer"
+                      conversionId={CONVERSION_ID}
                       className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-green-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-600"
                     >
                       <MessageCircle size={16} />
                       WhatsApp
-                    </a>
+                    </TrackedLink>
                   </div>
                 </div>
               </div>
@@ -699,12 +706,13 @@ export default function Home() {
                     <Phone className="mt-1" size={20} />
                     <div>
                       <p className="font-semibold">Telefon</p>
-                      <a
+                      <TrackedLink
                         href={`tel:${siteConfig.phoneHref}`}
+                        conversionId={CONVERSION_ID}
                         className="text-zinc-600 hover:text-zinc-900"
                       >
                         {siteConfig.phoneDisplay}
-                      </a>
+                      </TrackedLink>
                     </div>
                   </div>
 
@@ -712,14 +720,15 @@ export default function Home() {
                     <MessageCircle className="mt-1 text-green-600" size={20} />
                     <div>
                       <p className="font-semibold">WhatsApp</p>
-                      <a
+                      <TrackedLink
                         href={whatsappLink}
                         target="_blank"
                         rel="noreferrer"
+                        conversionId={CONVERSION_ID}
                         className="text-zinc-600 hover:text-zinc-900"
                       >
                         Hızlı iletişim için yazın
-                      </a>
+                      </TrackedLink>
                     </div>
                   </div>
 
@@ -752,15 +761,16 @@ export default function Home() {
                       Yol Tarifi Al
                     </a>
 
-                    <a
+                    <TrackedLink
                       href={whatsappLink}
                       target="_blank"
                       rel="noreferrer"
+                      conversionId={CONVERSION_ID}
                       className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-green-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
                     >
                       <MessageCircle size={18} />
                       WhatsApp ile Yazın
-                    </a>
+                    </TrackedLink>
                   </div>
                 </div>
               </div>
