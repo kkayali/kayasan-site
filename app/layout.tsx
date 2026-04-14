@@ -183,12 +183,14 @@ export default function RootLayout({
           src="https://www.googletagmanager.com/gtag/js?id=G-3F3F1NVEVG"
           strategy="afterInteractive"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics-and-ads" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
+
             gtag('config', 'G-3F3F1NVEVG');
+            gtag('config', 'AW-18057403546');
           `}
         </Script>
 
