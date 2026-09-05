@@ -373,12 +373,12 @@ export default function ProductsPage() {
       <section className="border-y border-zinc-200 bg-zinc-50">
         <div className="mx-auto max-w-7xl px-6 py-16 md:py-20">
           <Reveal>
-            <SectionTitle
-              eyebrow="Katalog"
-              title="Öne Çıkan Ürün Görsellerimiz"
-              description="Ürünlerimizden sadece bir kısım ..."
-              center
-            />
+          <SectionTitle
+  eyebrow="Katalog"
+  title="Öne Çıkan Ürün Görsellerimiz"
+  description="Ürünlerimizden sadece bir kısım ..."
+  align="center"
+/>
           </Reveal>
 
           <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
