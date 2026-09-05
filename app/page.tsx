@@ -1,38 +1,48 @@
+// Dosya: app/page.tsx
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  ArrowDown,
   ArrowRight,
+  ArrowUpRight,
+  BadgeCheck,
+  Box,
   Car,
-  CheckCircle2,
+  Check,
+  Clock3,
+  ClipboardCheck,
   Facebook,
+  Gauge,
   Instagram,
   MapPin,
   MessageCircle,
+  PackageCheck,
   Phone,
+  Route,
   ShieldCheck,
   Star,
-  PackageCheck,
-  Route,
+  Truck,
   Wrench,
+  Zap,
 } from "lucide-react";
-import SectionTitle from "@/components/SectionTitle";
 import BrandsRow from "@/components/BrandsRow";
 import Reveal from "@/components/Reveal";
+import SectionTitle from "@/components/SectionTitle";
 import TrackedLink from "@/components/TrackedLink";
-import { siteConfig } from "@/data/site";
+import { getWhatsAppLink, siteConfig } from "@/data/site";
+import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Ana Sayfa",
+  title: "Volkswagen, Audi, Seat, Skoda ve Porsche Yedek Parça",
   description:
-    "Kayasan Otomotiv; 1993’ten bu yana Volkswagen, Audi, Seat, Skoda ve Porsche marka araçlar için mekanik, kaporta ve elektrik yedek parça tedariği sağlayan güvenilir otomotiv firmasıdır.",
-  alternates: {
-    canonical: "/",
-  },
+    "Kayasan Otomotiv; Volkswagen, Audi, Seat, Skoda ve Porsche araçlar için mekanik, kaporta, elektrik ve bakım grubu yedek parça tedariği sağlar. Telefon ve WhatsApp üzerinden hızlı destek alın.",
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Kayasan Otomotiv | VAG Grubu Yedek Parça",
     description:
-      "Volkswagen, Audi, Seat, Skoda ve Porsche araçlara yönelik mekanik, kaporta ve elektrik yedek parça çözümleri.",
+      "1993’ten beri VAG grubu araçlara doğru parça teyidi ve Türkiye geneline tedarik desteği.",
     url: siteConfig.domain,
     type: "website",
     images: [
@@ -40,753 +50,657 @@ export const metadata: Metadata = {
         url: `${siteConfig.domain}${siteConfig.ogImage}`,
         width: 1200,
         height: 630,
-        alt: "Kayasan Otomotiv VAG Grubu Yedek Parça",
+        alt: "Kayasan Otomotiv VAG grubu yedek parça",
       },
     ],
   },
 };
 
-const CONVERSION_ID = "AW-18057403546/PdT-CL-voZscEJq5uKJD";
-
-const features = [
+const productGroups = [
   {
-    title: "Mekanik Yedek Parça",
+    title: "Mekanik parçalar",
     description:
-      "Volkswagen, Audi, Seat, Skoda ve Porsche marka araçlara yönelik mekanik yedek parça ihtiyaçlarına doğru ve güvenilir çözümler sunuyoruz.",
+      "Motor, triger, devirdaim, debriyaj, volan, ön takım ve soğutma grubu parçaları.",
     icon: Wrench,
   },
   {
-    title: "Kaporta ve Elektrik Parçaları",
+    title: "Elektrik ve elektronik",
     description:
-      "Kaporta ve elektrik grubu ürünlerinde doğru parça seçimi, hızlı tedarik ve güvenilir hizmet anlayışıyla çalışıyoruz.",
+      "Sensör, ateşleme, aydınlatma, şarj sistemi ve araç elektriği ürünleri.",
+    icon: Zap,
+  },
+  {
+    title: "Kaporta parçaları",
+    description:
+      "Tampon, panjur, çamurluk, ayna, kapı ve dış gövde grubu parçaları.",
     icon: Car,
   },
   {
-    title: "Türkiye Geneline Hızlı Tedarik",
+    title: "Bakım ürünleri",
     description:
-      "Türkiye’nin dört bir yanındaki müşterilerimize hızlı dönüş ve doğru ürün yönlendirmesi ile parça tedariği sağlıyoruz.",
-    icon: PackageCheck,
-  },
-  {
-    title: "Tecrübe ve Esnaflık",
-    description:
-      "1993’ten bu yana süregelen hizmet anlayışımızın temelinde güven, dürüstlük ve müşteri memnuniyeti bulunur.",
+      "Filtreler, motor yağları, fren grubu ve periyodik bakımda gereken ürünler.",
     icon: ShieldCheck,
   },
 ];
 
-const brandPages = [
+const processSteps = [
   {
-    name: "Volkswagen",
-    href: "/volkswagen-yedek-parca",
+    number: "01",
+    title: "Araç bilgilerini paylaşın",
     description:
-      "Passat, Golf, Polo, Jetta, Tiguan, Caddy ve diğer Volkswagen modelleri için yedek parça içerikleri.",
+      "Marka, model, model yılı ve aradığınız parçayı bize iletin.",
+    icon: ClipboardCheck,
   },
   {
-    name: "Audi",
-    href: "/audi-yedek-parca",
+    number: "02",
+    title: "Parçayı birlikte teyit edelim",
     description:
-      "A3, A4, A5, A6, Q serisi ve diğer Audi modelleri için parça çözümleri.",
+      "Gerekirse şasi numarası, OEM kodu veya ürün fotoğrafıyla kontrol edelim.",
+    icon: BadgeCheck,
   },
   {
-    name: "Skoda",
-    href: "/skoda-yedek-parca",
+    number: "03",
+    title: "Teslimat şeklini seçin",
     description:
-      "Octavia, Superb, Fabia, Scala, Kamiq ve diğer Skoda modelleri için yedek parça desteği.",
-  },
-  {
-    name: "Seat",
-    href: "/seat-yedek-parca",
-    description:
-      "Leon, Ibiza, Toledo, Ateca ve diğer Seat modelleri için doğru parça yönlendirmesi.",
-  },
-  {
-    name: "Porsche",
-    href: "/porsche-yedek-parca",
-    description:
-      "Cayenne, Macan, Panamera, Taycan ve diğer Porsche modelleri için güvenilir tedarik.",
-  },
-];
-
-const shelfImages = [
-  { title: "Düzenli Raf Sistemi", src: "/photos/raf/raf-1.jpg" },
-  { title: "Geniş Ürün Stoğu", src: "/photos/raf/raf-2.jpg" },
-  { title: "Mağaza ve Ürün Alanı", src: "/photos/raf/raf-3.jpg" },
-];
-
-const cargoImages = [
-  { title: "Gönderime Hazır Sipariş", src: "/photos/kargo/kargo-1.jpeg" },
-  { title: "Kutu İçi Parça Hazırlığı", src: "/photos/kargo/kargo-2.jpeg" },
-  { title: "Paketleme Aşaması", src: "/photos/kargo/kargo-4.jpeg" },
-  { title: "Koruyucu Ambalajlama", src: "/photos/kargo/kargo-5.jpeg" },
-  { title: "Parça Yerleşimi", src: "/photos/kargo/kargo-6.jpeg" },
-  { title: "Sipariş Toplama", src: "/photos/kargo/kargo-7.jpeg" },
-];
-
-const reasons = [
-  {
-    title: "30 Yılı Aşan Tecrübe",
-    description:
-      "1993 yılından bu yana otomotiv yedek parça alanında edindiğimiz deneyim ile güvenilir hizmet sunuyoruz.",
-  },
-  {
-    title: "VAG Grubu Uzmanlığı",
-    description:
-      "Volkswagen, Audi, Seat, Skoda ve Porsche marka araçlara yönelik ürün tedariğinde uzmanlaşmış bir yapıya sahibiz.",
-  },
-  {
-    title: "Türkiye Geneline Hizmet",
-    description:
-      "Sadece bulunduğumuz bölgede değil, Türkiye’nin dört bir yanındaki müşterilere hızlı parça tedariği sağlıyoruz.",
+      "Mağazadan teslim alın veya teyit edilen siparişi kargoya verelim.",
+    icon: PackageCheck,
   },
 ];
 
 const manufacturerLogos = [
-  { name: "Bosch", src: "/markalogo/bosch.png", logoClass: "h-14" },
-  { name: "Brembo", src: "/markalogo/brembo.png", logoClass: "h-16" },
-  { name: "Continental", src: "/markalogo/continental.png", logoClass: "h-12" },
-  { name: "Delphi", src: "/markalogo/delphi.png", logoClass: "h-25" },
-  { name: "Denso", src: "/markalogo/denso.png", logoClass: "h-25" },
-  { name: "Elring", src: "/markalogo/elring.png", logoClass: "h-25" },
-  { name: "Febi", src: "/markalogo/febi.png", logoClass: "h-14" },
-  { name: "Ferodo", src: "/markalogo/ferodo.png", logoClass: "h-25" },
-  { name: "Filtron", src: "/markalogo/filtron.png", logoClass: "h-12" },
-  { name: "Gates", src: "/markalogo/gates.png", logoClass: "h-25" },
-  { name: "GKL", src: "/markalogo/gkl.png", logoClass: "h-14" },
-  { name: "GKN", src: "/markalogo/gkn.png", logoClass: "h-12" },
-  { name: "Hella", src: "/markalogo/hella.png", logoClass: "h-19" },
-  { name: "Hengst", src: "/markalogo/hengst.png", logoClass: "h-24" },
-  { name: "INA", src: "/markalogo/ina.png", logoClass: "h-22" },
-  { name: "Kale", src: "/markalogo/kale.png", logoClass: "h-12" },
-  { name: "Lemförder", src: "/markalogo/lemforderr.png", logoClass: "h-13" },
-  { name: "LUK", src: "/markalogo/luk.png", logoClass: "h-14" },
-  { name: "Mahle", src: "/markalogo/mahle.png", logoClass: "h-25" },
-  { name: "Mann", src: "/markalogo/mann.png", logoClass: "h-15" },
-  { name: "NGK", src: "/markalogo/ngk.png", logoClass: "h-25" },
-  { name: "Sachs", src: "/markalogo/sachs.png", logoClass: "h-13" },
-  { name: "SKF", src: "/markalogo/skf.png", logoClass: "h-25" },
-  { name: "SWAG", src: "/markalogo/swag.png", logoClass: "h-12" },
-  { name: "Textar", src: "/markalogo/textar.png", logoClass: "h-25" },
-  { name: "Valeo", src: "/markalogo/valeo.png", logoClass: "h-12" },
-  { name: "Victor Reinz", src: "/markalogo/victorreinz.png", logoClass: "h-28" },
-  { name: "Zimmermann", src: "/markalogo/zimmermann.png", logoClass: "h-37" },
+  ["Bosch", "/markalogo/bosch.png"],
+  ["Brembo", "/markalogo/brembo.png"],
+  ["Continental", "/markalogo/continental.png"],
+  ["Delphi", "/markalogo/delphi.png"],
+  ["Denso", "/markalogo/denso.png"],
+  ["Elring", "/markalogo/elring.png"],
+  ["Febi", "/markalogo/febi.png"],
+  ["Ferodo", "/markalogo/ferodo.png"],
+  ["Filtron", "/markalogo/filtron.png"],
+  ["Gates", "/markalogo/gates.png"],
+  ["GKL", "/markalogo/gkl.png"],
+  ["GKN", "/markalogo/gkn.png"],
+  ["Hella", "/markalogo/hella.png"],
+  ["Hengst", "/markalogo/hengst.png"],
+  ["INA", "/markalogo/ina.png"],
+  ["Kale", "/markalogo/kale.png"],
+  ["Lemförder", "/markalogo/lemforderr.png"],
+  ["LUK", "/markalogo/luk.png"],
+  ["Mahle", "/markalogo/mahle.png"],
+  ["Mann", "/markalogo/mann.png"],
+  ["NGK", "/markalogo/ngk.png"],
+  ["Sachs", "/markalogo/sachs.png"],
+  ["SKF", "/markalogo/skf.png"],
+  ["SWAG", "/markalogo/swag.png"],
+  ["Textar", "/markalogo/textar.png"],
+  ["Valeo", "/markalogo/valeo.png"],
+  ["Victor Reinz", "/markalogo/victorreinz.png"],
+  ["Zimmermann", "/markalogo/zimmermann.png"],
+] as const;
+
+const cargoImages = [
+  {
+    src: "/photos/kargo/kargo-1.jpeg",
+    title: "Gönderime hazır sipariş",
+    alt: "Gönderime hazırlanan yedek parça siparişi",
+  },
+  {
+    src: "/photos/kargo/kargo-3.jpeg",
+    title: "Kontrollü paketleme",
+    alt: "Kayasan Otomotiv paketleme süreci",
+  },
+  {
+    src: "/photos/kargo/kargo-5.jpeg",
+    title: "Koruyucu ambalaj",
+    alt: "Koruyucu ambalajla hazırlanan otomotiv parçası",
+  },
+  {
+    src: "/photos/kargo/kargo-7.jpeg",
+    title: "Türkiye geneline gönderim",
+    alt: "Kargoya hazır müşteri siparişi",
+  },
 ];
 
-const manufacturerLogosLoop = [...manufacturerLogos, ...manufacturerLogos];
-
-export default function Home() {
-  const whatsappLink = `${siteConfig.whatsappHref}?text=${encodeURIComponent(
-    siteConfig.whatsappMessage
-  )}`;
+export default function HomePage() {
+  const whatsappLink = getWhatsAppLink();
 
   return (
-    <main>
-      <section className="relative overflow-hidden border-b border-zinc-200 bg-[linear-gradient(to_bottom,_#fafafa,_#ffffff)]">
-        <div className="absolute inset-0">
-          <Image
-            src="/hero/raf-bg.jpg"
-            alt="Kayasan Otomotiv mağaza içi raf görünümü"
-            fill
-            priority
-            className="object-cover object-center opacity-100 md:opacity-100"
-            sizes="100vw"
-          />
-        </div>
+    <main className={styles.page}>
+      <section className={styles.hero} aria-labelledby="home-title">
+        <div className={styles.heroGrid}>
+          <Reveal className={styles.heroCopy}>
+            <p className={styles.locationTag}>
+              <span aria-hidden="true" />
+              İstanbul’dan Türkiye geneline
+            </p>
 
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/78 md:from-white md:via-white/88 md:to-white/70" />
-        <div className="soft-grid-bg absolute inset-0 opacity-30" />
+            <h1 id="home-title">
+              VAG grubu araçlar için <em>doğru yedek parça.</em>
+            </h1>
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-14 md:grid-cols-2 md:gap-14 md:py-24">
-          <Reveal>
-            <div className="flex flex-col justify-center">
-              <div className="mb-6 flex flex-wrap items-center gap-4">
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border border-zinc-200 bg-white shadow-md md:h-28 md:w-28">
+            <p className={styles.heroLead}>
+              Volkswagen, Audi, Seat, Skoda ve Porsche araçların mekanik,
+              kaporta, elektrik ve bakım parçalarında 1993’ten beri hizmet
+              veriyoruz.
+            </p>
+
+            <div className={styles.heroActions}>
+              <TrackedLink
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                eventName="whatsapp_click"
+                eventLocation="home_hero"
+                className={styles.whatsappButton}
+              >
+                <MessageCircle size={20} />
+                WhatsApp’tan parça sorun
+              </TrackedLink>
+
+              <TrackedLink
+                href={`tel:${siteConfig.phoneHref}`}
+                eventName="phone_click"
+                eventLocation="home_hero"
+                className={styles.callButton}
+              >
+                <Phone size={20} />
+                {siteConfig.phoneDisplay}
+              </TrackedLink>
+            </div>
+
+            <p className={styles.heroHelp}>
+              <Check size={17} />
+              <span>
+                Marka, model, model yılı ve varsa şasi numarasını gönderin;
+                doğru parçayı teyit edelim.
+              </span>
+            </p>
+
+            <div className={styles.heroProof} aria-label="İşletme özeti">
+              <div>
+                <strong>1993</strong>
+                <span>Kuruluş yılı</span>
+              </div>
+
+              <div>
+                <strong>5 marka</strong>
+                <span>VAG odaklı uzmanlık</span>
+              </div>
+
+              <a
+                href={siteConfig.googleBusinessUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Kayasan Otomotiv Google işletme profilini aç"
+              >
+                <strong>
+                  <Star size={16} fill="currentColor" />
+                  {siteConfig.reviewSummary.ratingValue}/5
+                </strong>
+                <span>
+                  {siteConfig.reviewSummary.reviewCount} Google yorumu
+                </span>
+              </a>
+            </div>
+
+            <a className={styles.heroScroll} href="#markalar">
+              Markalara göz atın
+              <ArrowDown size={17} />
+            </a>
+          </Reveal>
+
+          <Reveal className={styles.heroVisual} delay={90}>
+            <div className={styles.heroImageWrap}>
+              <Image
+                src="/hero/raf-bg.jpg"
+                alt="Kayasan Otomotiv mağaza içi yedek parça rafları"
+                fill
+                priority
+                className={styles.heroImage}
+                sizes="(max-width: 900px) 100vw, 48vw"
+              />
+
+              <div className={styles.imageShade} />
+
+              <div className={styles.imageTopLabel}>
+                <span className={styles.logoMini}>
                   <Image
-                    src={siteConfig.logoPath}
-                    alt={`${siteConfig.companyName} logo`}
+                    src={siteConfig.miniLogoPath}
+                    alt=""
                     fill
-                    className="object-contain p-1"
-                    sizes="120px"
-                    priority
+                    className={styles.containImage}
+                    sizes="44px"
                   />
-                </div>
-
-                <span className="inline-flex w-fit rounded-full border border-zinc-300 bg-white/95 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-700 backdrop-blur-sm">
-                  Yedek Parçanın Tek Adresi
+                </span>
+                <span>
+                  <strong>{siteConfig.shortName}</strong>
+                  <small>Akınsal Sanayi Sitesi</small>
                 </span>
               </div>
 
-              <h1 className="max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight text-zinc-900 md:text-6xl">
-                VAG grubu araçlar için güvenilir yedek parça adresi
-              </h1>
-
-              <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
-                Kayasan Otomotiv, Volkswagen, Skoda, Seat, Audi ve Porsche marka
-                araçların bütün mekanik - kaporta - elektrik yedek parçacısıyız.
-              </p>
-
-              <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-700 md:text-lg">
-                Doğru parça, hızlı tedarik ve müşteri memnuniyetini esas alan hizmet
-                anlayışımızla Türkiye’nin dört bir yanındaki müşterilerimize güvenilir
-                çözümler sunuyoruz.
-              </p>
-
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <TrackedLink
-                  href={`tel:${siteConfig.phoneHref}`}
-                  conversionId={CONVERSION_ID}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
-                >
-                  <Phone size={18} />
-                  Hemen Ara
-                </TrackedLink>
-
-                <TrackedLink
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  conversionId={CONVERSION_ID}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-green-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
-                >
-                  <MessageCircle size={18} />
-                  WhatsApp ile Yazın
-                </TrackedLink>
-
-                <a
-                  href={siteConfig.directionsUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-zinc-300 bg-white/95 px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100"
-                >
-                  <Route size={18} />
-                  Yol Tarifi Al
-                </a>
-              </div>
-
-              <div className="mt-5 flex items-center gap-3">
+              <div className={styles.heroSocials} aria-label="Sosyal medya">
                 <a
                   href={siteConfig.instagramUrl}
                   target="_blank"
-                  rel="noreferrer"
-                  aria-label="Instagram"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-pink-200 bg-gradient-to-br from-pink-50 via-fuchsia-50 to-orange-50 text-pink-600 transition hover:scale-105"
+                  rel="noopener noreferrer"
+                  className={styles.instagramIcon}
+                  aria-label="Instagram hesabımız"
                 >
-                  <Instagram size={18} />
+                  <Instagram size={20} />
                 </a>
-
                 <a
                   href={siteConfig.facebookUrl}
                   target="_blank"
-                  rel="noreferrer"
-                  aria-label="Facebook"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600 transition hover:scale-105"
+                  rel="noopener noreferrer"
+                  className={styles.facebookIcon}
+                  aria-label="Facebook sayfamız"
                 >
-                  <Facebook size={18} />
+                  <Facebook size={20} />
                 </a>
               </div>
 
-              <div className="mt-8 flex flex-col gap-3 text-sm text-zinc-700 sm:flex-row sm:flex-wrap sm:gap-5">
-                <div className="inline-flex items-center gap-2">
-                  <CheckCircle2 size={16} className="text-zinc-900" />
-                  1993’ten beri tecrübe
-                </div>
-                <div className="inline-flex items-center gap-2">
-                  <CheckCircle2 size={16} className="text-zinc-900" />
-                  Doğru parça tedariği
-                </div>
-                <div className="inline-flex items-center gap-2">
-                  <CheckCircle2 size={16} className="text-zinc-900" />
-                  Türkiye geneline hizmet
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="rounded-[2rem] border border-zinc-200 bg-white/92 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.08)] backdrop-blur-[2px]">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-5">
-                  <p className="text-sm text-zinc-500">Uzmanlık</p>
-                  <p className="mt-2 text-lg font-semibold leading-8 text-zinc-900">
-                    Mekanik • Kaporta • Elektrik
-                  </p>
-                </div>
-
-                <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-5">
-                  <p className="text-sm text-zinc-500">Marka Odağı</p>
-                  <p className="mt-2 text-lg font-semibold leading-8 text-zinc-900">
-                    Volkswagen • Audi • Seat • Skoda • Porsche
-                  </p>
-                </div>
-
-                <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-5 sm:col-span-2">
-                  <div className="flex items-center gap-3">
-                    <div className="relative h-12 w-12 overflow-hidden rounded-full border border-zinc-200 bg-white shadow-sm">
-                      <Image
-                        src={siteConfig.miniLogoPath}
-                        alt={`${siteConfig.companyName} mini logo`}
-                        fill
-                        className="object-contain p-0.5"
-                        sizes="48px"
-                      />
-                    </div>
-
-                    <div>
-                      <p className="text-sm text-zinc-500">Google Güveni</p>
-                      <p className="font-semibold text-zinc-900">
-                        {siteConfig.companyName}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex items-center gap-2 text-zinc-900">
-                    <Star size={18} className="fill-zinc-900" />
-                    <span className="text-2xl font-bold">
-                      {siteConfig.reviewSummary.ratingValue}
-                    </span>
-                    <span className="text-base font-medium text-zinc-600">/ 5</span>
-                  </div>
-
-                  <p className="mt-1 text-sm text-zinc-600">
-                    {siteConfig.reviewSummary.reviewCount} Google değerlendirmesi
-                  </p>
-
-                  <a
-                    href={siteConfig.googleBusinessUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-zinc-900"
-                  >
-                    Google’da İncele
-                    <ArrowRight size={16} />
-                  </a>
-                </div>
-
-                <div className="rounded-3xl bg-zinc-900 p-6 text-white sm:col-span-2">
-                  <p className="text-sm text-zinc-300">İletişim</p>
-                  <p className="mt-2 text-3xl font-bold">{siteConfig.phoneDisplay}</p>
-                  <p className="mt-2 text-zinc-300">
-                    Sipariş, ürün bilgisi ve hızlı iletişim için doğrudan bize ulaşın.
-                  </p>
-
-                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                    <TrackedLink
-                      href={`tel:${siteConfig.phoneHref}`}
-                      conversionId={CONVERSION_ID}
-                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-200"
-                    >
-                      <Phone size={16} />
-                      Ara
-                    </TrackedLink>
-
-                    <TrackedLink
-                      href={whatsappLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      conversionId={CONVERSION_ID}
-                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-green-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-600"
-                    >
-                      <MessageCircle size={16} />
-                      WhatsApp
-                    </TrackedLink>
-                  </div>
-                </div>
+              <div className={styles.imageBottomCard}>
+                <Gauge size={22} />
+                <span>
+                  <small>Uzmanlık alanı</small>
+                  <strong>Mekanik · Kaporta · Elektrik</strong>
+                </span>
+                <span className={styles.openBadge}>
+                  <span aria-hidden="true" />
+                  30+ yıl
+                </span>
               </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      <BrandsRow />
-
-      <section className="mx-auto max-w-7xl px-6 py-14 md:py-16">
-        <Reveal>
-          <SectionTitle
-            eyebrow="Marka Sayfaları"
-            title="Markaya Göre Yedek Parça Sayfalarımız"
-            description="Volkswagen, Audi, Seat, Skoda ve Porsche için hazırladığımız özel sayfalardan model ve parça odaklı içeriklere ulaşabilirsiniz."
-          />
-        </Reveal>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {brandPages.map((item, index) => (
-            <Reveal key={item.href} delay={index * 60}>
-              <Link
-                href={item.href}
-                className="group block rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                      Marka Bazlı İçerik
-                    </p>
-                    <h3 className="mt-3 text-2xl font-semibold tracking-tight text-zinc-900">
-                      {item.name} Yedek Parça
-                    </h3>
-                  </div>
-
-                  <div className="rounded-2xl bg-zinc-100 p-3 transition group-hover:bg-zinc-900 group-hover:text-white">
-                    <ArrowRight size={18} />
-                  </div>
-                </div>
-
-                <p className="mt-4 leading-8 text-zinc-600">{item.description}</p>
-
-                <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-zinc-900">
-                  Sayfayı İncele
-                  <ArrowRight size={16} />
-                </div>
-              </Link>
-            </Reveal>
-          ))}
+      <section className={styles.assurance} aria-label="Hizmet özeti">
+        <div className={styles.assuranceInner}>
+          <div>
+            <Wrench size={19} />
+            <span>Doğru parça teyidi</span>
+          </div>
+          <div>
+            <Truck size={19} />
+            <span>Türkiye geneline kargo</span>
+          </div>
+          <div>
+            <Box size={19} />
+            <span>Geniş ürün grubu</span>
+          </div>
+          <div>
+            <MapPin size={19} />
+            <span>Cevizlibağ’da mağaza</span>
+          </div>
         </div>
       </section>
 
-      <section className="border-b border-zinc-200 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-12 md:py-14">
-          <Reveal>
-            <div className="mb-8 text-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                Tedarik Ettiğimiz Üretici Markalar
-              </p>
-              <h2 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 md:text-3xl">
-                Kaliteli Parça Üreticileriyle Güçlü Tedarik Ağı
-              </h2>
-              <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-zinc-600 md:text-lg">
-                İşletmemizde tercih edilen üretici markaların bir kısmı
-              </p>
-            </div>
-          </Reveal>
+      <div id="markalar" className={styles.anchorTarget}>
+        <BrandsRow />
+      </div>
 
-          <Reveal delay={80}>
-            <div className="manufacturer-marquee relative overflow-hidden rounded-[2rem] border border-zinc-200 bg-zinc-50 py-5 shadow-sm">
-              <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-white via-white/80 to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-white via-white/80 to-transparent" />
-
-              <div className="manufacturer-marquee-track flex items-center gap-4 px-4">
-                {manufacturerLogosLoop.map((brand, index) => (
-                  <div
-                    key={`${brand.name}-${index}`}
-                    className="flex h-24 w-[180px] shrink-0 items-center justify-center rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-                  >
-                    <div className={`relative w-full ${brand.logoClass ?? "h-12"}`}>
-                      <Image
-                        src={brand.src}
-                        alt={brand.name}
-                        fill
-                        className="object-contain"
-                        sizes="180px"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 pb-16 pt-12 md:pb-24 md:pt-16">
-        <Reveal>
-          <SectionTitle
-            eyebrow="Hizmet Yapımız"
-            title="Neler Sunuyoruz?"
-            description="Volkswagen, Audi, Seat, Skoda ve Porsche marka araçlara yönelik yedek parça tedariğinde güven, hız ve doğru ürün yaklaşımıyla hizmet veriyoruz."
-          />
-        </Reveal>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {features.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <Reveal key={item.title} delay={index * 70}>
-                <div className="rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                  <div className="mb-5 inline-flex rounded-2xl bg-zinc-100 p-4">
-                    <Icon size={26} />
-                  </div>
-                  <h3 className="text-2xl font-semibold tracking-tight text-zinc-900">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 leading-8 text-zinc-600">{item.description}</p>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="border-y border-zinc-200 bg-zinc-50">
-        <div className="mx-auto grid max-w-7xl items-start gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
-          <Reveal>
-            <div>
-              <SectionTitle
-                eyebrow="Kurumsal Tanıtım"
-                title="Hakkımızda"
-                description="Gerçek esnaf anlayışı, doğru parça tedariği ve yıllara dayanan tecrübe ile hizmet veriyoruz."
-              />
-              <p className="mt-6 leading-8 text-zinc-600">
-                Kayasan Otomotiv, 1993 yılında İstanbul Cevizlibağ’daki Akınsal
-                Sanayi Sitesi’nde kurulmuştur. Kurulduğu günden bu yana Volkswagen,
-                Audi, Seat, Skoda ve Porsche marka araçlara yönelik mekanik,
-                kaporta ve elektrik yedek parça satışı gerçekleştirmektedir.
-              </p>
-              <p className="mt-4 leading-8 text-zinc-600">
-                Hizmet anlayışımızın temelinde doğru ürün, hızlı dönüş, müşteri
-                memnuniyeti ve gerçek esnaflık yer alır. Türkiye’nin dört bir
-                yanındaki müşterilerimize güvenilir parça tedariği sağlamayı
-                sürdürüyoruz.
-              </p>
-
-              <Link
-                href="/hakkimizda"
-                className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-zinc-900"
-              >
-                Daha Fazla İncele
-                <ArrowRight size={16} />
-              </Link>
-            </div>
-          </Reveal>
-
-          <Reveal delay={100}>
-            <div className="rounded-[2rem] border border-zinc-200 bg-white p-8 shadow-sm">
-              <h3 className="text-3xl font-bold tracking-tight text-zinc-900">
-                Neden Bizi Tercih Etmelisiniz?
-              </h3>
-
-              <div className="mt-7 space-y-5">
-                {reasons.map((item, index) => (
-                  <Reveal key={item.title} delay={index * 60}>
-                    <div className="rounded-2xl bg-zinc-50 p-5">
-                      <p className="font-semibold text-zinc-900">{item.title}</p>
-                      <p className="mt-2 leading-7 text-zinc-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-24">
-        <Reveal>
-          <SectionTitle
-            eyebrow="Raf Görselleri"
-            title="Stok ve Raf Düzenimiz"
-            description="İşletmemizdeki raf yapısını ve stok düzenini yansıtan gerçek görseller."
-            center
-          />
-        </Reveal>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {shelfImages.map((item, index) => (
-            <Reveal key={item.title} delay={index * 70}>
-              <div className="overflow-hidden rounded-[2rem] border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-                <div className="relative aspect-[4/5] w-full">
-                  <Image
-                    src={item.src}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                    loading="lazy"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                </div>
-                <div className="p-5">
-                  <p className="font-semibold text-zinc-900">{item.title}</p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-y border-zinc-200 bg-zinc-50">
-        <div className="mx-auto max-w-7xl px-6 py-16 md:py-24">
+      <section id="parca-talebi" className={styles.processSection}>
+        <div className={styles.container}>
           <Reveal>
             <SectionTitle
-              eyebrow="Kargo Süreci"
-              title="Hazırlanan Siparişler"
-              description="Paketleme ve kargolama sürecimize ait gerçek görseller ile işletmemizin aktif çalışma düzeni."
-              center
+              eyebrow="Hızlı parça talebi"
+              title="Üç adımda doğru parçaya ulaşalım."
+              description="Araç bilgilerinizi paylaşın. Ek bilgi gerekiyorsa size net olarak söyleyelim; uygun parçayı teyit ettikten sonra teslimatı planlayalım."
             />
           </Reveal>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {cargoImages.map((item, index) => (
-              <Reveal key={item.src} delay={index * 70}>
-                <div className="overflow-hidden rounded-[2rem] border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-                  <div className="relative aspect-[4/5] w-full">
-                    <Image
-                      src={item.src}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                      loading="lazy"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <p className="font-semibold text-zinc-900">{item.title}</p>
-                  </div>
-                </div>
+          <div className={styles.processGrid}>
+            {processSteps.map((step, index) => {
+              const Icon = step.icon;
+
+              return (
+                <Reveal
+                  className={styles.processReveal}
+                  delay={index * 70}
+                  key={step.number}
+                >
+                  <article className={styles.processCard}>
+                    <div className={styles.processTop}>
+                      <span>{step.number}</span>
+                      <span className={styles.processIcon}>
+                        <Icon size={23} />
+                      </span>
+                    </div>
+                    <h3>{step.title}</h3>
+                    <p>{step.description}</p>
+                  </article>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          <Reveal className={styles.processCta} delay={100}>
+            <div>
+              <strong>Hazır WhatsApp mesajını açın.</strong>
+              <span>
+                Araç bilgilerini doldurun; konuşmaya doğrudan başlayalım.
+              </span>
+            </div>
+            <TrackedLink
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              eventName="whatsapp_click"
+              eventLocation="home_process"
+            >
+              <MessageCircle size={18} />
+              Mesajı açın
+              <ArrowRight size={18} />
+            </TrackedLink>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className={styles.productsSection}>
+        <div className={styles.container}>
+          <Reveal>
+            <div className={styles.sectionHeaderRow}>
+              <SectionTitle
+                eyebrow="Ürün grupları"
+                title="VAG araçların temel parça ihtiyaçlarında yanınızdayız."
+                description="Bakım ürünlerinden motor ve kaporta parçalarına kadar farklı ihtiyaçlarda ürün teyidi ve tedarik desteği sağlıyoruz."
+              />
+              <Link href="/urunler" className={styles.textLink}>
+                Tüm ürünleri inceleyin
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+          </Reveal>
+
+          <div className={styles.productGrid}>
+            {productGroups.map((item, index) => {
+              const Icon = item.icon;
+
+              return (
+                <Reveal
+                  key={item.title}
+                  className={styles.productReveal}
+                  delay={index * 65}
+                >
+                  <Link href="/urunler" className={styles.productCard}>
+                    <span className={styles.productIcon}>
+                      <Icon size={26} />
+                    </span>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                    <span className={styles.cardLinkText}>
+                      Ürün grubuna gidin
+                      <ArrowUpRight size={17} />
+                    </span>
+                  </Link>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.manufacturersSection}>
+        <div className={styles.manufacturerHeading}>
+          <Reveal>
+            <SectionTitle
+              eyebrow="Tedarik ağı"
+              title="Tercih edilen parça üreticileri"
+              description="Talebe ve araç uyumluluğuna göre farklı üretici seçeneklerini değerlendiriyor, uygun ürünü birlikte belirliyoruz."
+              align="center"
+              tone="light"
+            />
+          </Reveal>
+        </div>
+
+        <Reveal className={styles.marqueeReveal} delay={70}>
+          <div
+            className={styles.logoMarquee}
+            aria-label="Çalıştığımız parça üreticileri"
+          >
+            <div className={styles.logoMarqueeTrack}>
+              {[0, 1].map((groupIndex) => (
+                <ul
+                  className={styles.logoMarqueeGroup}
+                  aria-hidden={groupIndex === 1 ? "true" : undefined}
+                  key={groupIndex}
+                >
+                  {manufacturerLogos.map(([name, src]) => (
+                    <li key={`${groupIndex}-${name}`}>
+                      <span>
+                        <Image
+                          src={src}
+                          alt={groupIndex === 0 ? `${name} logosu` : ""}
+                          fill
+                          className={styles.manufacturerLogo}
+                          sizes="156px"
+                        />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <p className={styles.marqueeNote}>
+          Stok ve araç uyumluluğu için bizimle iletişime geçebilirsiniz.
+        </p>
+      </section>
+
+      <section className={styles.aboutSection}>
+        <div className={styles.aboutGrid}>
+          <Reveal className={styles.aboutVisual}>
+            <div className={styles.aboutMainImage}>
+              <Image
+                src="/photos/raf/raf-1.jpg"
+                alt="Kayasan Otomotiv yedek parça raf düzeni"
+                fill
+                className={styles.coverImage}
+                sizes="(max-width: 900px) 100vw, 52vw"
+              />
+            </div>
+
+            <div className={styles.aboutSmallImage}>
+              <Image
+                src="/photos/raf/raf-2.jpg"
+                alt="Kayasan Otomotiv ürün stoğundan görünüm"
+                fill
+                className={styles.coverImage}
+                sizes="240px"
+              />
+            </div>
+
+            <div className={styles.experienceBadge}>
+              <strong>30+</strong>
+              <span>yıllık sektör tecrübesi</span>
+            </div>
+          </Reveal>
+
+          <Reveal className={styles.aboutCopy} delay={80}>
+            <SectionTitle
+              eyebrow="Gerçek işletme, gerçek tecrübe"
+              title="1993’ten beri aynı işin içindeyiz."
+              description="Kayasan Otomotiv, İstanbul Cevizlibağ’daki Akınsal Sanayi Sitesi’nde VAG grubu araçlara yönelik yedek parça tedariği sağlar."
+            />
+
+            <div className={styles.aboutList}>
+              <p>
+                <Check size={18} />
+                Şasi veya OEM koduyla ürün teyidi
+              </p>
+              <p>
+                <Check size={18} />
+                Mekanik, elektrik ve kaporta ürün grupları
+              </p>
+              <p>
+                <Check size={18} />
+                Mağazadan teslim veya Türkiye geneline gönderim
+              </p>
+            </div>
+
+            <Link href="/hakkimizda" className={styles.darkLink}>
+              Kayasan Otomotiv’i tanıyın
+              <ArrowRight size={18} />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className={styles.cargoSection}>
+        <div className={styles.container}>
+          <Reveal>
+            <div className={styles.sectionHeaderRow}>
+              <SectionTitle
+                eyebrow="Gerçek çalışma süreci"
+                title="Hazırlanan siparişlerden görüntüler"
+                description="Siparişleri ürünün yapısına göre koruyucu biçimde hazırlıyor ve teslimat sürecine alıyoruz."
+              />
+              <span className={styles.photoNote}>
+                Kayasan Otomotiv arşivinden
+              </span>
+            </div>
+          </Reveal>
+
+          <div className={styles.cargoGrid}>
+            {cargoImages.map((image, index) => (
+              <Reveal
+                className={
+                  index === 0
+                    ? `${styles.cargoReveal} ${styles.cargoFeatured}`
+                    : styles.cargoReveal
+                }
+                delay={index * 55}
+                key={image.src}
+              >
+                <figure>
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className={styles.coverImage}
+                    sizes={
+                      index === 0
+                        ? "(max-width: 800px) 100vw, 50vw"
+                        : "(max-width: 800px) 50vw, 25vw"
+                    }
+                  />
+                  <div className={styles.cargoShade} />
+                  <figcaption>{image.title}</figcaption>
+                </figure>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-24">
-        <Reveal>
-          <SectionTitle
-            eyebrow="Google Güveni"
-            title="Google İşletme Profilimiz"
-            description="Gerçek işletme profilimiz üzerinden kullanıcıların bizi daha yakından inceleyebilmesini sağlıyoruz."
-            center
-          />
-        </Reveal>
-
-        <Reveal delay={100}>
-          <div className="mt-10 rounded-[2rem] border border-zinc-200 bg-zinc-50 p-8 text-center shadow-sm">
-            <div className="mx-auto mb-6 flex w-fit items-center gap-3 rounded-full border border-zinc-200 bg-white px-4 py-3 shadow-sm">
-              <div className="relative h-12 w-12 overflow-hidden rounded-full border border-zinc-200 bg-white">
-                <Image
-                  src={siteConfig.miniLogoPath}
-                  alt={`${siteConfig.companyName} mini logo`}
-                  fill
-                  className="object-contain p-0.5"
-                  sizes="48px"
-                />
-              </div>
-              <span className="text-sm font-semibold text-zinc-900">
-                {siteConfig.companyName}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-center gap-2 text-zinc-900">
-              <Star size={20} className="fill-zinc-900" />
-              <span className="text-3xl font-bold">
-                {siteConfig.reviewSummary.ratingValue}
-              </span>
-              <span className="text-lg font-medium text-zinc-600">/ 5</span>
-            </div>
-
-            <p className="mt-3 text-zinc-600">
-              {siteConfig.reviewSummary.reviewCount} Google değerlendirmesi
+      <section className={styles.locationSection}>
+        <div className={styles.locationGrid}>
+          <Reveal className={styles.locationCopy}>
+            <p className={styles.sectionEyebrow}>Mağaza ve iletişim</p>
+            <h2>Parçanızı mağazadan teslim alabilirsiniz.</h2>
+            <p className={styles.locationLead}>
+              Akınsal Sanayi Sitesi’ndeki mağazamızı ziyaret edin veya gelmeden
+              önce arayarak ürün bilgisi alın.
             </p>
 
-            <a
-              href={siteConfig.googleBusinessUrl}
+            <div className={styles.locationFacts}>
+              <div>
+                <MapPin size={20} />
+                <span>
+                  <small>Adres</small>
+                  <strong>{siteConfig.addressLine}</strong>
+                </span>
+              </div>
+              <div>
+                <Clock3 size={20} />
+                <span>
+                  <small>Çalışma saatleri</small>
+                  <strong>Pazartesi–Cumartesi · 08:30–19:00</strong>
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.locationActions}>
+              <TrackedLink
+                href={siteConfig.directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                eventName="direction_click"
+                eventLocation="home_location"
+                className={styles.directionButton}
+              >
+                <Route size={19} />
+                Yol tarifi alın
+              </TrackedLink>
+              <TrackedLink
+                href={`tel:${siteConfig.phoneHref}`}
+                eventName="phone_click"
+                eventLocation="home_location"
+                className={styles.locationCallButton}
+              >
+                <Phone size={19} />
+                Hemen arayın
+              </TrackedLink>
+            </div>
+
+            <div className={styles.socialCards}>
+              <a
+                href={siteConfig.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.instagramCard}
+              >
+                <span className={styles.socialIconWrap}>
+                  <Instagram size={21} />
+                </span>
+                <span>
+                  <small>Bizi takip edin</small>
+                  <strong>Instagram</strong>
+                </span>
+                <ArrowUpRight size={18} />
+              </a>
+
+              <a
+                href={siteConfig.facebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.facebookCard}
+              >
+                <span className={styles.socialIconWrap}>
+                  <Facebook size={21} />
+                </span>
+                <span>
+                  <small>Sayfamızı inceleyin</small>
+                  <strong>Facebook</strong>
+                </span>
+                <ArrowUpRight size={18} />
+              </a>
+            </div>
+          </Reveal>
+
+          <Reveal className={styles.mapWrap} delay={80}>
+            <iframe
+              title="Kayasan Otomotiv haritası"
+              src={siteConfig.googleMapsEmbed}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <TrackedLink
+              href={siteConfig.directionsUrl}
               target="_blank"
-              rel="noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
+              rel="noopener noreferrer"
+              eventName="direction_click"
+              eventLocation="home_map"
+              className={styles.mapButton}
             >
-              Google’da Yorumları Gör
-              <ArrowRight size={16} />
-            </a>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="border-t border-zinc-200 bg-zinc-50">
-        <div className="mx-auto max-w-7xl px-6 py-16">
-          <div className="grid gap-8 md:grid-cols-2">
-            <Reveal>
-              <div className="rounded-[2rem] border border-zinc-200 bg-white p-8 shadow-sm">
-                <SectionTitle
-                  eyebrow="İletişim"
-                  title="Bize Ulaşın"
-                  description="Telefon, WhatsApp ve adres bilgilerimiz üzerinden bizimle hızlı şekilde iletişim kurabilirsiniz."
-                />
-
-                <div className="mt-8 space-y-5">
-                  <div className="flex items-start gap-3">
-                    <Phone className="mt-1" size={20} />
-                    <div>
-                      <p className="font-semibold">Telefon</p>
-                      <TrackedLink
-                        href={`tel:${siteConfig.phoneHref}`}
-                        conversionId={CONVERSION_ID}
-                        className="text-zinc-600 hover:text-zinc-900"
-                      >
-                        {siteConfig.phoneDisplay}
-                      </TrackedLink>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <MessageCircle className="mt-1 text-green-600" size={20} />
-                    <div>
-                      <p className="font-semibold">WhatsApp</p>
-                      <TrackedLink
-                        href={whatsappLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        conversionId={CONVERSION_ID}
-                        className="text-zinc-600 hover:text-zinc-900"
-                      >
-                        Hızlı iletişim için yazın
-                      </TrackedLink>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <MapPin className="mt-1" size={20} />
-                    <div>
-                      <p className="font-semibold">Adres</p>
-                      <p className="text-zinc-600">{siteConfig.addressLine}</p>
-                    </div>
-                  </div>
-
-                  <div className="rounded-3xl bg-zinc-50 p-5">
-                    <p className="font-semibold text-zinc-900">
-                      Sipariş ve ürün bilgisi için hızlı iletişim
-                    </p>
-                    <p className="mt-2 text-zinc-600">
-                      Telefonla anında arayabilir ya da WhatsApp üzerinden doğrudan
-                      bize yazabilirsiniz.
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col gap-3 pt-1 sm:flex-row">
-                    <a
-                      href={siteConfig.directionsUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
-                    >
-                      <Route size={18} />
-                      Yol Tarifi Al
-                    </a>
-
-                    <TrackedLink
-                      href={whatsappLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      conversionId={CONVERSION_ID}
-                      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-green-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
-                    >
-                      <MessageCircle size={18} />
-                      WhatsApp ile Yazın
-                    </TrackedLink>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-
-            <Reveal delay={120}>
-              <div className="overflow-hidden rounded-[2rem] border border-zinc-200 bg-white shadow-sm">
-                <iframe
-                  title="Kayasan Otomotiv Harita"
-                  src={siteConfig.googleMapsEmbed}
-                  className="h-[420px] w-full border-0"
-                  loading="lazy"
-                />
-              </div>
-            </Reveal>
-          </div>
+              <MapPin size={18} />
+              Google Haritalar’da açın
+              <ArrowUpRight size={17} />
+            </TrackedLink>
+          </Reveal>
         </div>
       </section>
     </main>

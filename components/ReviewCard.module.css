@@ -1,0 +1,27 @@
+/* Dosya: components/ReviewCard.module.css */
+.card {
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.stars {
+  color: #e4a700;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+}
+
+.card blockquote {
+  margin: 1rem 0 0;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+
+.name {
+  margin-top: 1.15rem;
+  color: var(--ink);
+  font-weight: 750;
+}

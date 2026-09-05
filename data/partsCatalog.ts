@@ -1,3 +1,6 @@
+// Dosya: data/partsCatalog.ts
+// Mevcut katalog verisi değiştirilmeden korunmuştur.
+
 export type PartItem = {
   name: string;
   slug: string;

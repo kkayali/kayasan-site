@@ -1,30 +1,34 @@
+// Dosya: app/iletisim/page.tsx
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import {
+  Car,
   Clock3,
   Facebook,
+  FileText,
+  Hash,
   Instagram,
   MapPin,
   MessageCircle,
   Phone,
   Route,
 } from "lucide-react";
-import SectionTitle from "@/components/SectionTitle";
 import Reveal from "@/components/Reveal";
+import SectionTitle from "@/components/SectionTitle";
 import TrackedLink from "@/components/TrackedLink";
-import { siteConfig } from "@/data/site";
+import { getWhatsAppLink, siteConfig } from "@/data/site";
+import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "İletişim",
   description:
-    "Kayasan Otomotiv iletişim sayfası. Telefon, WhatsApp, adres, çalışma saatleri ve harita bilgileri.",
-  alternates: {
-    canonical: "/iletisim",
-  },
+    "Kayasan Otomotiv telefon, WhatsApp, adres, çalışma saatleri ve yol tarifi bilgileri. VAG grubu yedek parça için hızlıca ulaşın.",
+  alternates: { canonical: "/iletisim" },
   openGraph: {
     title: "İletişim | Kayasan Otomotiv",
     description:
-      "Telefon, WhatsApp, adres, sosyal medya ve yol tarifi bilgileriyle bize ulaşın.",
+      "Parça talebiniz için arayın, WhatsApp’tan yazın veya Akınsal Sanayi Sitesi’ndeki mağazamıza gelin.",
     url: `${siteConfig.domain}/iletisim`,
     type: "website",
     images: [
@@ -32,199 +36,210 @@ export const metadata: Metadata = {
         url: `${siteConfig.domain}${siteConfig.ogImage}`,
         width: 1200,
         height: 630,
-        alt: "Kayasan Otomotiv İletişim",
+        alt: "Kayasan Otomotiv iletişim",
       },
     ],
   },
 };
 
-const CONVERSION_ID = "AW-18057403546/PdT-CL-voZscEJq5uKJD";
+const messageChecklist = [
+  { title: "Marka ve model", detail: "Örn. Volkswagen Passat", icon: Car },
+  { title: "Model yılı", detail: "Aracın üretim/model yılı", icon: FileText },
+  { title: "Aranan parça", detail: "Parça adı veya ürün fotoğrafı", icon: MessageCircle },
+  { title: "Şasi / OEM kodu", detail: "Varsa doğru eşleşmeyi hızlandırır", icon: Hash },
+];
 
 export default function ContactPage() {
-  const whatsappLink = `${siteConfig.whatsappHref}?text=${encodeURIComponent(
-    siteConfig.whatsappMessage
-  )}`;
+  const whatsappLink = getWhatsAppLink();
 
   return (
     <main>
-      <section className="border-b border-zinc-200 bg-zinc-50">
-        <div className="mx-auto max-w-7xl px-6 py-10 md:py-14">
-          <Reveal>
-            <div className="mx-auto max-w-4xl text-center">
-              <div className="mb-4 flex items-center justify-center">
-                <div className="relative h-16 w-16 overflow-hidden rounded-full border border-zinc-200 bg-white shadow-sm md:h-18 md:w-18">
-                  <Image
-                    src={siteConfig.miniLogoPath}
-                    alt={`${siteConfig.companyName} mini logo`}
-                    fill
-                    className="object-contain p-0.5"
-                    sizes="64px"
-                    priority
-                  />
-                </div>
+      <section className={styles.hero}>
+        <div className={styles.heroImage}>
+          <Image
+            src="/hero/raf-bg.jpg"
+            alt=""
+            fill
+            priority
+            className={styles.coverImage}
+            sizes="100vw"
+          />
+        </div>
+        <div className={styles.heroOverlay} />
+        <Reveal className={styles.heroContent}>
+          <SectionTitle
+            as="h1"
+            size="display"
+            eyebrow="İletişim"
+            title="Parça talebinizi doğrudan bize iletin."
+            description="Telefonla arayın veya WhatsApp üzerinden araç bilgilerinizi gönderin. En hızlı başlangıç için marka, model, model yılı ve aradığınız parçayı yazın."
+            tone="light"
+          />
+          <div className={styles.heroActions}>
+            <TrackedLink
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              eventName="whatsapp_click"
+              eventLocation="contact_hero"
+              className={styles.whatsappButton}
+            >
+              <MessageCircle size={20} /> WhatsApp ile yazın
+            </TrackedLink>
+            <TrackedLink
+              href={`tel:${siteConfig.phoneHref}`}
+              eventName="phone_click"
+              eventLocation="contact_hero"
+              className={styles.phoneButton}
+            >
+              <Phone size={20} /> {siteConfig.phoneDisplay}
+            </TrackedLink>
+            <a
+              href={siteConfig.directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.directionButton}
+            >
+              <Route size={20} /> Yol tarifi alın
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      <section className={styles.contactSection}>
+        <div className={styles.contactGrid}>
+          <Reveal className={styles.infoPanel}>
+            <p className={styles.panelEyebrow}>İletişim bilgileri</p>
+            <h2>Kayasan Otomotiv’e ulaşın</h2>
+
+            <div className={styles.infoList}>
+              <div>
+                <span className={styles.iconWrap}><Phone size={20} /></span>
+                <span>
+                  <small>Telefon</small>
+                  <TrackedLink
+                    href={`tel:${siteConfig.phoneHref}`}
+                    eventName="phone_click"
+                    eventLocation="contact_info"
+                  >
+                    {siteConfig.phoneDisplay}
+                  </TrackedLink>
+                </span>
               </div>
+              <div>
+                <span className={styles.iconWrap}><MessageCircle size={20} /></span>
+                <span>
+                  <small>WhatsApp</small>
+                  <TrackedLink
+                    href={whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    eventName="whatsapp_click"
+                    eventLocation="contact_info"
+                  >
+                    Hazır mesajla konuşmayı başlatın
+                  </TrackedLink>
+                </span>
+              </div>
+              <div>
+                <span className={styles.iconWrap}><MapPin size={20} /></span>
+                <span>
+                  <small>Adres</small>
+                  <a
+                    href={siteConfig.directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {siteConfig.addressLine}
+                  </a>
+                </span>
+              </div>
+              <div>
+                <span className={styles.iconWrap}><Clock3 size={20} /></span>
+                <span>
+                  <small>Çalışma saatleri</small>
+                  {siteConfig.businessHours.map((item) => <strong key={item}>{item}</strong>)}
+                </span>
+              </div>
+            </div>
 
-              <SectionTitle
-                eyebrow="İletişim"
-                title="Bize Ulaşın"
-                description="Sipariş, ürün bilgisi ve hızlı iletişim için telefon, WhatsApp, adres ve sosyal medya kanallarımızdan bize kolayca ulaşabilirsiniz."
-                center
-              />
-
-              <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
-                <TrackedLink
-                  href={`tel:${siteConfig.phoneHref}`}
-                  conversionId={CONVERSION_ID}
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
-                >
-                  <Phone size={17} />
-                  Hemen Ara
-                </TrackedLink>
-
-                <TrackedLink
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  conversionId={CONVERSION_ID}
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-green-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
-                >
-                  <MessageCircle size={17} />
-                  WhatsApp ile Yazın
-                </TrackedLink>
-
+            <div className={styles.socialBox}>
+              <span>Sosyal medya hesaplarımız</span>
+              <div>
                 <a
-                  href={siteConfig.directionsUrl}
+                  href={siteConfig.instagramUrl}
                   target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100"
+                  rel="noopener noreferrer"
                 >
-                  <Route size={17} />
-                  Yol Tarifi Al
+                  <Instagram size={18} /> Instagram
+                </a>
+                <a
+                  href={siteConfig.facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Facebook size={18} /> Facebook
                 </a>
               </div>
             </div>
           </Reveal>
+
+          <Reveal className={styles.mapPanel} delay={70}>
+            <iframe
+              title="Kayasan Otomotiv konumu"
+              src={siteConfig.googleMapsEmbed}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <a
+              href={siteConfig.directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Route size={18} /> Google Maps’te yol tarifi aç
+            </a>
+          </Reveal>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-10 md:py-12">
-        <div className="grid gap-8 md:grid-cols-2">
+      <section className={styles.checklistSection}>
+        <div className={styles.container}>
           <Reveal>
-            <div className="rounded-[2rem] border border-zinc-200 bg-white p-8 shadow-sm">
-              <div className="space-y-6">
-                <div className="flex items-start gap-3">
-                  <Phone className="mt-1" size={20} />
-                  <div>
-                    <p className="font-semibold">Telefon</p>
-                    <TrackedLink
-                      href={`tel:${siteConfig.phoneHref}`}
-                      conversionId={CONVERSION_ID}
-                      className="text-zinc-600 hover:text-zinc-900"
-                    >
-                      {siteConfig.phoneDisplay}
-                    </TrackedLink>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <MessageCircle className="mt-1 text-green-600" size={20} />
-                  <div>
-                    <p className="font-semibold">WhatsApp</p>
-                    <TrackedLink
-                      href={whatsappLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      conversionId={CONVERSION_ID}
-                      className="text-zinc-600 hover:text-zinc-900"
-                    >
-                      WhatsApp üzerinden iletişim kurun
-                    </TrackedLink>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <MapPin className="mt-1" size={20} />
-                  <div>
-                    <p className="font-semibold">Adres</p>
-                    <p className="text-zinc-600">{siteConfig.addressLine}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <Clock3 className="mt-1" size={20} />
-                  <div>
-                    <p className="font-semibold">Çalışma Saatleri</p>
-                    <div className="text-zinc-600">
-                      {siteConfig.businessHours.map((item) => (
-                        <p key={item}>{item}</p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-5">
-                  <p className="font-semibold text-zinc-900">
-                    Sosyal Medya Hesaplarımız
-                  </p>
-
-                  <div className="mt-4 flex flex-col gap-3">
-                    <a
-                      href={siteConfig.instagramUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 text-pink-600 transition hover:text-pink-700"
-                    >
-                      <Instagram size={18} />
-                      Instagram hesabımızı ziyaret edin
-                    </a>
-
-                    <a
-                      href={siteConfig.facebookUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 text-blue-600 transition hover:text-blue-700"
-                    >
-                      <Facebook size={18} />
-                      Facebook sayfamızı ziyaret edin
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-3 pt-2 sm:flex-row">
-                  <a
-                    href={siteConfig.directionsUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
-                  >
-                    <Route size={18} />
-                    Yol Tarifi Al
-                  </a>
-
-                  <TrackedLink
-                    href={whatsappLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    conversionId={CONVERSION_ID}
-                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-green-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
-                  >
-                    <MessageCircle size={18} />
-                    WhatsApp ile Yazın
-                  </TrackedLink>
-                </div>
-              </div>
-            </div>
+            <SectionTitle
+              eyebrow="Daha hızlı yanıt için"
+              title="Mesajınıza bu bilgileri ekleyin."
+              description="Hepsini bilmiyorsanız sorun değil. Elinizde olan bilgileri ve mümkünse ürünün fotoğrafını göndermeniz yeterli."
+              align="center"
+            />
           </Reveal>
 
-          <Reveal delay={120}>
-            <div className="overflow-hidden rounded-[2rem] border border-zinc-200 bg-white shadow-sm">
-              <iframe
-                title="Kayasan Otomotiv Harita"
-                src={siteConfig.googleMapsEmbed}
-                className="h-[460px] w-full border-0"
-                loading="lazy"
-              />
+          <Reveal className={styles.checklist} delay={60}>
+            {messageChecklist.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title}>
+                  <Icon size={22} />
+                  <h2>{item.title}</h2>
+                  <p>{item.detail}</p>
+                </article>
+              );
+            })}
+          </Reveal>
+
+          <Reveal className={styles.checklistAction} delay={90}>
+            <div>
+              <strong>Hazır WhatsApp mesajını açın</strong>
+              <span>Bilgi alanlarını doldurup doğrudan gönderin.</span>
             </div>
+            <TrackedLink
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              eventName="whatsapp_click"
+              eventLocation="contact_checklist"
+            >
+              <MessageCircle size={19} /> WhatsApp’a geç
+            </TrackedLink>
           </Reveal>
         </div>
       </section>

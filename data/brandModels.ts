@@ -1,9 +1,6 @@
-export type BrandKey =
-  | "Volkswagen"
-  | "Audi"
-  | "Skoda"
-  | "Seat"
-  | "Porsche";
+// Dosya: data/brandModels.ts
+
+export type BrandKey = "Volkswagen" | "Audi" | "Skoda" | "Seat" | "Porsche";
 
 export type ModelItem = {
   name: string;

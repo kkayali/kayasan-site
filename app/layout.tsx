@@ -1,40 +1,31 @@
-import type { Metadata } from "next";
+// Dosya: app/layout.tsx
+
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import JsonLd from "@/components/JsonLd";
+import MobileContactBar from "@/components/MobileContactBar";
+import Navbar from "@/components/Navbar";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { siteConfig } from "@/data/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
+  applicationName: siteConfig.shortName,
   title: {
-    default:
-      "Kayasan Otomotiv | Volkswagen Audi Seat Skoda Porsche Yedek Parça",
+    default: "Kayasan Otomotiv | VAG Grubu Yedek Parça",
     template: "%s | Kayasan Otomotiv",
   },
   description: siteConfig.shortDescription,
-  keywords: [
-    "Kayasan Otomotiv",
-    "Kayasan Otomotiv Yedek Parça",
-    "Cevizlibağ yedek parça",
-    "Akınsal Sanayi Sitesi yedek parça",
-    "Volkswagen yedek parça",
-    "Audi yedek parça",
-    "Seat yedek parça",
-    "Skoda yedek parça",
-    "Porsche yedek parça",
-    "mekanik yedek parça",
-    "kaporta parçaları",
-    "elektrik parçaları",
-    "otomotiv yedek parça",
-    "Zeytinburnu yedek parça",
-    "VAG grubu yedek parça",
-  ],
-  alternates: {
-    canonical: "/",
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    address: false,
+    email: false,
+    telephone: false,
   },
+  keywords: [...siteConfig.primaryKeywords],
+  alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,
@@ -47,15 +38,18 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/icon.png",
-    apple: "/apple-icon.png",
-    shortcut: "/icon.png",
+    icon: [
+      { url: "/favicon.ico.png", type: "image/png" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    apple: "/favicon.png",
+    shortcut: "/favicon.ico.png",
   },
   openGraph: {
     title: "Kayasan Otomotiv",
     description: siteConfig.shortDescription,
     url: siteConfig.domain,
-    siteName: "Kayasan Otomotiv",
+    siteName: siteConfig.shortName,
     locale: "tr_TR",
     type: "website",
     images: [
@@ -81,16 +75,23 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#ffffff",
+};
+
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "AutoPartsStore",
+  "@id": `${siteConfig.domain}/#business`,
   name: siteConfig.companyName,
   description: siteConfig.shortDescription,
   url: siteConfig.domain,
-  telephone: siteConfig.phoneDisplay,
-  image: [`${siteConfig.domain}${siteConfig.logoPath}`],
+  telephone: siteConfig.phoneHref,
+  image: `${siteConfig.domain}${siteConfig.logoPath}`,
   logo: `${siteConfig.domain}${siteConfig.logoPath}`,
-  priceRange: "$$",
+  priceRange: "₺₺",
   address: {
     "@type": "PostalAddress",
     streetAddress: siteConfig.addressLine,
@@ -99,8 +100,13 @@ const localBusinessSchema = {
     postalCode: siteConfig.postalCode,
     addressCountry: siteConfig.country,
   },
-  areaServed: "Türkiye",
-  sameAs: [siteConfig.instagramUrl, siteConfig.facebookUrl].filter(Boolean),
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: siteConfig.geo.latitude,
+    longitude: siteConfig.geo.longitude,
+  },
+  areaServed: siteConfig.areaServedText,
+  sameAs: [siteConfig.instagramUrl, siteConfig.facebookUrl],
   hasMap: siteConfig.directionsUrl,
   foundingDate: siteConfig.foundedYear,
   openingHoursSpecification: [
@@ -120,67 +126,41 @@ const localBusinessSchema = {
   ],
   contactPoint: {
     "@type": "ContactPoint",
-    contactType: "customer service",
-    telephone: siteConfig.phoneDisplay,
+    contactType: "sales",
+    telephone: siteConfig.phoneHref,
     availableLanguage: ["Turkish"],
   },
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: siteConfig.reviewSummary.ratingValue,
     reviewCount: siteConfig.reviewSummary.reviewCount,
+    bestRating: "5",
   },
 };
 
-const webSiteSchema = {
+const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${siteConfig.domain}/#website`,
   name: siteConfig.companyName,
   url: siteConfig.domain,
   description: siteConfig.shortDescription,
   inLanguage: "tr-TR",
-};
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: siteConfig.faqItems.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: item.answer,
-    },
-  })),
-};
-
-const productSchema = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  name: "Yedek Parça Ürün Kategorileri",
-  url: `${siteConfig.domain}/urunler`,
-  description:
-    "Kayasan Otomotiv ürün grupları: mekanik, elektrik, kaporta, triger setleri, ön takım parçaları, bakım malzemeleri ve VAG grubu araçlara özel yedek parça çözümleri.",
-  mainEntity: {
-    "@type": "ItemList",
-    itemListElement: siteConfig.featuredCategories.map((item, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: item,
-      url: `${siteConfig.domain}/urunler`,
-    })),
-  },
+  publisher: { "@id": `${siteConfig.domain}/#business` },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="tr">
-      <body className="bg-white text-zinc-900 antialiased">
+      <body>
+        <a className="skipLink" href="#ana-icerik">
+          Ana içeriğe geç
+        </a>
+
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-3F3F1NVEVG"
+          src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.googleAnalyticsId}`}
           strategy="afterInteractive"
         />
         <Script id="google-analytics-and-ads" strategy="afterInteractive">
@@ -189,21 +169,19 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             window.gtag = gtag;
             gtag('js', new Date());
-
-            gtag('config', 'G-3F3F1NVEVG');
-            gtag('config', 'AW-18057403546');
+            gtag('config', '${siteConfig.googleAnalyticsId}');
+            gtag('config', '${siteConfig.googleAdsId}');
           `}
         </Script>
 
-        <JsonLd data={webSiteSchema} />
+        <JsonLd data={websiteSchema} />
         <JsonLd data={localBusinessSchema} />
-        <JsonLd data={faqSchema} />
-        <JsonLd data={productSchema} />
 
         <Navbar />
-        {children}
+        <div id="ana-icerik">{children}</div>
         <Footer />
         <WhatsAppButton />
+        <MobileContactBar />
       </body>
     </html>
   );

@@ -1,43 +1,51 @@
+// Dosya: components/BrandsRow.tsx
+
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import styles from "./BrandsRow.module.css";
 
 const brands = [
-  { name: "Volkswagen", src: "/brands/vw.png" },
-  { name: "Audi", src: "/brands/audi.png" },
-  { name: "Seat", src: "/brands/seat.png" },
-  { name: "Skoda", src: "/brands/skoda.png" },
-  { name: "Porsche", src: "/brands/porsche.png" },
+  { name: "Volkswagen", src: "/brands/vw.png", href: "/volkswagen-yedek-parca" },
+  { name: "Audi", src: "/brands/audi.png", href: "/audi-yedek-parca" },
+  { name: "Seat", src: "/brands/seat.png", href: "/seat-yedek-parca" },
+  { name: "Skoda", src: "/brands/skoda.png", href: "/skoda-yedek-parca" },
+  { name: "Porsche", src: "/brands/porsche.png", href: "/porsche-yedek-parca" },
 ];
 
 export default function BrandsRow() {
   return (
-    <section className="border-y border-zinc-200 bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-10">
+    <section className={styles.section} aria-labelledby="markalar-baslik">
+      <div className={styles.inner}>
         <Reveal>
-          <div className="mb-6 text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-zinc-500">
-              Desteklenen Markalar
-            </p>
-            <h2 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 md:text-3xl">
-              VAG Grubu Araçlara Uygun Parça Çözümleri
-            </h2>
+          <div className={styles.heading}>
+            <div>
+              <p>Uzmanlık alanımız</p>
+              <h2 id="markalar-baslik">VAG grubu araçlara odaklı parça tedariği</h2>
+            </div>
+            <span>Markanızı seçerek ilgili sayfaya geçin.</span>
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+        <div className={styles.grid}>
           {brands.map((brand, index) => (
-            <Reveal key={brand.name} delay={index * 70}>
-              <div className="flex h-32 items-center justify-center rounded-[1.5rem] border border-zinc-200 bg-zinc-50 p-6 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-md">
-                <div className="relative h-24 w-full">
+            <Reveal key={brand.name} delay={index * 45}>
+              <Link href={brand.href} className={styles.card}>
+                <span className={styles.logoWrap}>
                   <Image
                     src={brand.src}
-                    alt={brand.name}
+                    alt={`${brand.name} logosu`}
                     fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 150px, 220px"
+                    className={styles.logo}
+                    sizes="(max-width: 640px) 42vw, 180px"
                   />
-                </div>
-              </div>
+                </span>
+                <span className={styles.cardBottom}>
+                  <strong>{brand.name}</strong>
+                  <ArrowUpRight size={17} />
+                </span>
+              </Link>
             </Reveal>
           ))}
         </div>

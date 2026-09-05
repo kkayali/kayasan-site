@@ -1,21 +1,14 @@
+// Dosya: components/Navbar.tsx
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ChevronDown,
-  Facebook,
-  Instagram,
-  Menu,
-  MessageCircle,
-  Phone,
-  X,
-} from "lucide-react";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { ChevronDown, Menu, MessageCircle, Phone, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import TrackedLink from "@/components/TrackedLink";
-import { siteConfig } from "@/data/site";
-
-const CONVERSION_ID = "AW-18057403546/PdT-CL-voZscEJq5uKJD";
+import { getWhatsAppLink, siteConfig } from "@/data/site";
+import styles from "./Navbar.module.css";
 
 const navItems = [
   { href: "/", label: "Ana Sayfa" },
@@ -33,81 +26,127 @@ const productLinks = [
 ];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const productsRef = useRef<HTMLDivElement | null>(null);
+  const whatsappLink = getWhatsAppLink();
 
-  const whatsappLink = `${siteConfig.whatsappHref}?text=${encodeURIComponent(
-    siteConfig.whatsappMessage
-  )}`;
+  const productsActive = productLinks.some((item) => item.href === pathname);
+
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!productsRef.current?.contains(event.target as Node)) {
+        setProductsOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setProductsOpen(false);
+        setMobileOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 62.01rem)");
+    const closeMobileMenuOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setMobileOpen(false);
+    };
+
+    desktopQuery.addEventListener("change", closeMobileMenuOnDesktop);
+    return () =>
+      desktopQuery.removeEventListener("change", closeMobileMenuOnDesktop);
+  }, []);
+
+  const closeMenus = () => {
+    setMobileOpen(false);
+    setProductsOpen(false);
+  };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-6">
-        <Link href="/" className="min-w-0">
-          <div className="flex items-center gap-3">
-            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-zinc-200 bg-white shadow-sm md:h-14 md:w-14">
-              <Image
-                src={siteConfig.miniLogoPath}
-                alt={`${siteConfig.companyName} mini logo`}
-                fill
-                className="object-contain p-0.5"
-                sizes="56px"
-                priority
-              />
-            </div>
-
-            <div className="min-w-0">
-              <div className="truncate text-base font-bold tracking-tight text-zinc-900 md:text-xl">
-                {siteConfig.companyName}
-              </div>
-              <div className="hidden text-sm text-zinc-500 md:block">
-                1993’ten beri VAG grubu yedek parça tedariği
-              </div>
-            </div>
-          </div>
+    <header className={styles.header}>
+      <div className={styles.inner}>
+        <Link
+          href="/"
+          className={styles.brand}
+          onClick={closeMenus}
+          aria-label={`${siteConfig.shortName} ana sayfa`}
+        >
+          <span className={styles.logoWrap}>
+            <Image
+              src={siteConfig.miniLogoPath}
+              alt=""
+              fill
+              className={styles.logo}
+              sizes="52px"
+              priority
+            />
+          </span>
+          <span className={styles.brandCopy}>
+            <strong>{siteConfig.shortName}</strong>
+            <small>VAG grubu yedek parça · 1993</small>
+          </span>
         </Link>
 
-        <nav className="hidden items-center gap-5 md:flex">
+        <nav className={styles.desktopNav} aria-label="Ana menü">
           {navItems.slice(0, 2).map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-zinc-700 transition hover:text-zinc-950"
+              className={`${styles.navLink} ${
+                pathname === item.href ? styles.active : ""
+              }`}
+              aria-current={pathname === item.href ? "page" : undefined}
             >
               {item.label}
             </Link>
           ))}
 
           <div
-            className="group relative"
+            className={styles.products}
+            ref={productsRef}
             onMouseEnter={() => setProductsOpen(true)}
             onMouseLeave={() => setProductsOpen(false)}
           >
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-sm font-medium text-zinc-700 transition hover:text-zinc-950"
+              className={`${styles.navLink} ${
+                productsActive ? styles.active : ""
+              }`}
+              aria-expanded={productsOpen}
+              aria-controls="urunler-menusu"
+              aria-haspopup="true"
+              onClick={() => setProductsOpen((current) => !current)}
             >
               Ürünler
-              <ChevronDown size={16} className="mt-[1px]" />
+              <ChevronDown
+                size={15}
+                className={productsOpen ? styles.chevronOpen : styles.chevron}
+              />
             </button>
 
             <div
-              className={`absolute left-1/2 top-full z-50 mt-3 w-[280px] -translate-x-1/2 rounded-2xl border border-zinc-200 bg-white p-2 shadow-xl transition-all duration-200 ${
-                productsOpen
-                  ? "visible translate-y-0 opacity-100"
-                  : "invisible -translate-y-1 opacity-0"
-              }`}
+              id="urunler-menusu"
+              className={styles.dropdown}
+              hidden={!productsOpen}
             >
-              {productLinks.map((item, index) => (
+              {productLinks.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={[
-                    "block rounded-xl px-4 py-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 hover:text-zinc-950",
-                    index !== productLinks.length - 1
-                      ? "border-b border-zinc-100"
-                      : "",
-                  ].join(" ")}
+                  className={pathname === item.href ? styles.dropdownActive : ""}
+                  aria-current={pathname === item.href ? "page" : undefined}
+                  onClick={closeMenus}
                 >
                   {item.label}
                 </Link>
@@ -116,152 +155,125 @@ export default function Navbar() {
           </div>
 
           <Link
-            href={navItems[2].href}
-            className="text-sm font-medium text-zinc-700 transition hover:text-zinc-950"
+            href="/iletisim"
+            className={`${styles.navLink} ${
+              pathname === "/iletisim" ? styles.active : ""
+            }`}
+            aria-current={pathname === "/iletisim" ? "page" : undefined}
           >
-            {navItems[2].label}
+            İletişim
           </Link>
+        </nav>
 
-          <div className="flex items-center gap-2">
-            <a
-              href={siteConfig.instagramUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-pink-200 bg-gradient-to-br from-pink-50 via-fuchsia-50 to-orange-50 text-pink-600 transition hover:scale-105 hover:from-pink-100 hover:via-fuchsia-100 hover:to-orange-100"
-            >
-              <Instagram size={18} />
-            </a>
-
-            <a
-              href={siteConfig.facebookUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Facebook"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600 transition hover:scale-105 hover:bg-blue-100"
-            >
-              <Facebook size={18} />
-            </a>
-          </div>
-
+        <div className={styles.desktopActions}>
           <TrackedLink
             href={whatsappLink}
             target="_blank"
-            rel="noreferrer"
-            conversionId={CONVERSION_ID}
-            className="inline-flex items-center gap-2 rounded-2xl border border-green-200 bg-green-50 px-4 py-2 text-sm font-semibold text-green-700 transition hover:bg-green-100"
+            rel="noopener noreferrer"
+            eventName="whatsapp_click"
+            eventLocation="navbar"
+            className={styles.whatsappAction}
           >
-            <MessageCircle size={16} />
+            <MessageCircle size={17} />
             WhatsApp
           </TrackedLink>
-
           <TrackedLink
             href={`tel:${siteConfig.phoneHref}`}
-            conversionId={CONVERSION_ID}
-            className="inline-flex items-center gap-2 rounded-2xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-700"
+            eventName="phone_click"
+            eventLocation="navbar"
+            className={styles.phoneAction}
           >
-            <Phone size={16} />
+            <Phone size={17} />
             Ara
           </TrackedLink>
-        </nav>
+        </div>
 
         <button
-          onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex rounded-xl border border-zinc-300 p-2 md:hidden"
-          aria-label="Menüyü aç"
           type="button"
+          className={styles.menuButton}
+          aria-label={mobileOpen ? "Menüyü kapat" : "Menüyü aç"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobil-menu"
+          onClick={() => setMobileOpen((current) => !current)}
         >
-          {open ? <X size={20} /> : <Menu size={20} />}
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {open && (
-        <div className="border-t border-zinc-200 bg-white md:hidden">
-          <div className="mx-auto flex max-w-7xl flex-col px-4 py-4">
-            <Link
-              href="/"
-              onClick={() => setOpen(false)}
-              className="border-b border-zinc-100 py-3 text-sm font-medium text-zinc-700"
-            >
-              Ana Sayfa
-            </Link>
+      {mobileOpen ? (
+        <div id="mobil-menu" className={styles.mobilePanel}>
+          <nav className={styles.mobileNav} aria-label="Mobil menü">
+            {navItems.slice(0, 2).map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={pathname === item.href ? styles.mobileActive : ""}
+                aria-current={pathname === item.href ? "page" : undefined}
+                onClick={closeMenus}
+              >
+                {item.label}
+              </Link>
+            ))}
 
-            <Link
-              href="/hakkimizda"
-              onClick={() => setOpen(false)}
-              className="border-b border-zinc-100 py-3 text-sm font-medium text-zinc-700"
-            >
-              Hakkımızda
-            </Link>
-
-            <div className="border-b border-zinc-100 py-3">
-              <p className="mb-3 text-sm font-semibold text-zinc-900">Ürünler</p>
-              <div className="flex flex-col">
+            <details className={styles.mobileProducts} open={productsActive}>
+              <summary>
+                Ürünler
+                <ChevronDown size={17} />
+              </summary>
+              <div>
                 {productLinks.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="py-2 text-sm text-zinc-700"
+                    className={pathname === item.href ? styles.mobileActive : ""}
+                    aria-current={pathname === item.href ? "page" : undefined}
+                    onClick={closeMenus}
                   >
                     {item.label}
                   </Link>
                 ))}
               </div>
-            </div>
+            </details>
 
             <Link
               href="/iletisim"
-              onClick={() => setOpen(false)}
-              className="border-b border-zinc-100 py-3 text-sm font-medium text-zinc-700"
+              className={pathname === "/iletisim" ? styles.mobileActive : ""}
+              aria-current={pathname === "/iletisim" ? "page" : undefined}
+              onClick={closeMenus}
             >
               İletişim
             </Link>
+          </nav>
 
-            <div className="mt-4 flex items-center gap-3">
-              <a
-                href={siteConfig.instagramUrl}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-pink-200 bg-gradient-to-br from-pink-50 via-fuchsia-50 to-orange-50 text-pink-600"
-              >
-                <Instagram size={18} />
-              </a>
+          <p className={styles.mobileHint}>
+            Marka, model, model yılı ve aradığınız parçayı yazın; doğru ürünü
+            birlikte teyit edelim.
+          </p>
 
-              <a
-                href={siteConfig.facebookUrl}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Facebook"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600"
-              >
-                <Facebook size={18} />
-              </a>
-            </div>
-
+          <div className={styles.mobileActions}>
             <TrackedLink
               href={whatsappLink}
               target="_blank"
-              rel="noreferrer"
-              conversionId={CONVERSION_ID}
-              className="mt-4 inline-flex items-center justify-center gap-2 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700"
+              rel="noopener noreferrer"
+              eventName="whatsapp_click"
+              eventLocation="mobile_menu"
+              className={styles.whatsappAction}
             >
-              <MessageCircle size={16} />
-              WhatsApp ile Yazın
+              <MessageCircle size={18} />
+              WhatsApp ile yaz
             </TrackedLink>
-
             <TrackedLink
               href={`tel:${siteConfig.phoneHref}`}
-              conversionId={CONVERSION_ID}
-              className="mt-3 inline-flex items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white"
+              eventName="phone_click"
+              eventLocation="mobile_menu"
+              className={styles.phoneAction}
             >
-              <Phone size={16} />
+              <Phone size={18} />
               {siteConfig.phoneDisplay}
             </TrackedLink>
           </div>
         </div>
-      )}
+      ) : null}
     </header>
   );
 }

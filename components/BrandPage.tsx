@@ -1,103 +1,106 @@
+// Dosya: components/BrandPage.tsx
+
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
   Car,
-  CheckCircle2,
+  Check,
+  ChevronDown,
   MessageCircle,
+  PackageCheck,
   Phone,
   Route,
   ShieldCheck,
-  Sparkles,
   Wrench,
   Zap,
 } from "lucide-react";
-import SectionTitle from "@/components/SectionTitle";
+import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
+import SectionTitle from "@/components/SectionTitle";
 import TrackedLink from "@/components/TrackedLink";
-import { siteConfig } from "@/data/site";
-import { brandModels } from "@/data/brandModels";
+import { brandModels, type BrandKey } from "@/data/brandModels";
 import { partsCatalog } from "@/data/partsCatalog";
-
-type BrandName = "Volkswagen" | "Audi" | "Skoda" | "Seat" | "Porsche";
+import { getWhatsAppLink, siteConfig } from "@/data/site";
+import styles from "./BrandPage.module.css";
 
 type BrandPageProps = {
-  brand: BrandName;
+  brand: BrandKey;
 };
 
-const CONVERSION_ID = "AW-18057403546/PdT-CL-voZscEJq5uKJD";
-
-const brandDescriptions: Record<BrandName, string> = {
-  Volkswagen:
-    "Volkswagen marka araçlara yönelik mekanik, kaporta, elektrik ve bakım ürünlerinde doğru ve güvenilir yedek parça tedariği sağlıyoruz.",
-  Audi:
-    "Audi marka araçlar için mekanik, kaporta, elektrik ve bakım gruplarında kaliteli ve güvenilir yedek parça çözümleri sunuyoruz.",
-  Skoda:
-    "Skoda marka araçlara uygun mekanik, kaporta, elektrik ve bakım ürünlerinde hızlı ve güvenilir tedarik hizmeti veriyoruz.",
-  Seat:
-    "Seat marka araçlara yönelik mekanik, kaporta, elektrik ve bakım ürünlerinde doğru ürün yönlendirmesi ve hızlı parça tedariği sunuyoruz.",
-  Porsche:
-    "Porsche marka araçlara uygun mekanik, kaporta, elektrik ve bakım ürünlerinde güvenilir yedek parça desteği sağlıyoruz.",
-};
-
-const productHighlights = [
-  {
-    title: "Mekanik Parçalar",
+const brandDetails: Record<
+  BrandKey,
+  { slug: string; logo: string; description: string }
+> = {
+  Volkswagen: {
+    slug: "volkswagen-yedek-parca",
+    logo: "/brands/vw.png",
     description:
-      "Motor parçaları, triger setleri, devirdaim setleri, debriyaj ve volan setleri, ön takım parçaları ve benzeri birçok mekanik üründe doğru tedarik sağlıyoruz.",
+      "Volkswagen araçlar için mekanik, kaporta, elektrik ve bakım ürünlerinde doğru parça teyidi ve tedarik desteği.",
+  },
+  Audi: {
+    slug: "audi-yedek-parca",
+    logo: "/brands/audi.png",
+    description:
+      "Audi araçlar için mekanik, kaporta, elektrik ve bakım gruplarında güvenilir yedek parça çözümleri.",
+  },
+  Skoda: {
+    slug: "skoda-yedek-parca",
+    logo: "/brands/skoda.png",
+    description:
+      "Skoda araçlara uygun mekanik, kaporta, elektrik ve bakım ürünlerinde hızlı ve kontrollü tedarik desteği.",
+  },
+  Seat: {
+    slug: "seat-yedek-parca",
+    logo: "/brands/seat.png",
+    description:
+      "Seat araçlara yönelik mekanik, kaporta, elektrik ve bakım ürünlerinde doğru ürün yönlendirmesi.",
+  },
+  Porsche: {
+    slug: "porsche-yedek-parca",
+    logo: "/brands/porsche.png",
+    description:
+      "Porsche araçlara uygun mekanik, kaporta, elektrik ve bakım ürünlerinde güvenilir parça desteği.",
+  },
+};
+
+const productGroups = [
+  {
+    title: "Mekanik parçalar",
+    description: "Motor, triger, devirdaim, debriyaj, volan ve ön takım ürünleri.",
     icon: Wrench,
   },
   {
-    title: "Elektrik ve Elektronik",
-    description:
-      "Elektrik sistemiyle ilgili çeşitli yedek parça ihtiyaçlarında doğru ürün yönlendirmesi ve güvenilir parça tedariği sunuyoruz.",
+    title: "Elektrik ve elektronik",
+    description: "Sensör, ateşleme, aydınlatma ve araç elektriği ürünleri.",
     icon: Zap,
   },
   {
-    title: "Kaporta Parçaları",
-    description:
-      "Tampon, panjur, ızgara, far çevresi ve dış gövde grubuna ait birçok parçada profesyonel destek veriyoruz.",
+    title: "Kaporta parçaları",
+    description: "Tampon, panjur, çamurluk, ayna ve dış gövde ürünleri.",
     icon: Car,
   },
   {
-    title: "Bakım Ürünleri",
-    description:
-      "Motor yağları, filtre grupları ve düzenli bakımda ihtiyaç duyulan ürünlerde kaliteli ve güvenilir seçenekler sunuyoruz.",
+    title: "Bakım ürünleri",
+    description: "Filtre, motor yağı, fren ve periyodik bakım ürünleri.",
     icon: ShieldCheck,
   },
 ];
 
-function getBrandSlug(brand: BrandName) {
-  switch (brand) {
-    case "Volkswagen":
-      return "volkswagen-yedek-parca";
-    case "Audi":
-      return "audi-yedek-parca";
-    case "Skoda":
-      return "skoda-yedek-parca";
-    case "Seat":
-      return "seat-yedek-parca";
-    case "Porsche":
-      return "porsche-yedek-parca";
-    default:
-      return "";
-  }
-}
-
-export function getBrandMetadata(brand: BrandName): Metadata {
-  const slug = getBrandSlug(brand);
-  const description = `${brand} marka araçlar için mekanik, kaporta, elektrik, bakım ve birçok farklı parça grubunda güvenilir yedek parça tedariği. Kayasan Otomotiv ile hızlı iletişim ve doğru parça desteği.`;
+export function getBrandMetadata(brand: BrandKey): Metadata {
+  const detail = brandDetails[brand];
+  const description = `${brand} marka araçlar için mekanik, kaporta, elektrik, bakım ve farklı parça gruplarında güvenilir yedek parça tedariği. Kayasan Otomotiv ile hızlı iletişim ve doğru parça desteği.`;
 
   return {
     title: `${brand} Yedek Parça`,
     description,
-    alternates: {
-      canonical: `/${slug}`,
-    },
+    alternates: { canonical: `/${detail.slug}` },
     openGraph: {
       title: `${brand} Yedek Parça | Kayasan Otomotiv`,
       description,
-      url: `${siteConfig.domain}/${slug}`,
+      url: `${siteConfig.domain}/${detail.slug}`,
       type: "website",
       images: [
         {
@@ -112,353 +115,335 @@ export function getBrandMetadata(brand: BrandName): Metadata {
 }
 
 export default function BrandPage({ brand }: BrandPageProps) {
-  const whatsappLink = `${siteConfig.whatsappHref}?text=${encodeURIComponent(
-    `Merhaba, ${brand} yedek parça hakkında bilgi almak istiyorum.`
-  )}`;
+  const detail = brandDetails[brand];
+  const models = brandModels[brand];
+  const pageUrl = `${siteConfig.domain}/${detail.slug}`;
+  const whatsappLink = getWhatsAppLink(
+    [
+      `Merhaba, ${brand} yedek parça bilgisi almak istiyorum.`,
+      "",
+      "Araç modeli:",
+      "Model yılı:",
+      "Aradığım parça:",
+      "Varsa şasi no / OEM kodu:",
+    ].join("\n")
+  );
 
-  const models = brandModels[brand] ?? [];
-  const featuredParts = partsCatalog.slice(0, 32);
-
-  const categoryCounts = Array.from(
+  const categoryEntries = Array.from(
     partsCatalog.reduce((map, item) => {
-      map.set(item.category, (map.get(item.category) ?? 0) + 1);
+      const current = map.get(item.category) ?? [];
+      current.push(item);
+      map.set(item.category, current);
       return map;
-    }, new Map<string, number>())
-  ).map(([category, count]) => ({ category, count }));
+    }, new Map<string, typeof partsCatalog>())
+  );
 
-  const topCategories = categoryCounts
+  const topCategories = categoryEntries
+    .map(([name, items]) => ({ name, count: items.length }))
     .sort((a, b) => b.count - a.count)
-    .slice(0, 12);
+    .slice(0, 10);
 
-  const seoCombinationModels = models.slice(0, 6);
-  const seoCombinationParts = partsCatalog.slice(0, 12);
+  const featuredParts = categoryEntries
+    .flatMap(([, items]) => items.slice(0, 2))
+    .slice(0, 24);
+
+  const combinationModels = models.slice(0, 6);
+  const modelSupportCategories = topCategories.slice(0, 6).map(({ name }) => name);
+
+  const pageSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${pageUrl}/#webpage`,
+        url: pageUrl,
+        name: `${brand} Yedek Parça | Kayasan Otomotiv`,
+        description: detail.description,
+        inLanguage: "tr-TR",
+        isPartOf: { "@id": `${siteConfig.domain}/#website` },
+        about: { "@type": "Brand", name: brand },
+        publisher: { "@id": `${siteConfig.domain}/#business` },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Ana Sayfa",
+            item: siteConfig.domain,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: `${brand} Yedek Parça`,
+            item: pageUrl,
+          },
+        ],
+      },
+    ],
+  };
 
   return (
     <main>
-      <section className="relative overflow-hidden border-b border-zinc-200 bg-zinc-50">
-        <div className="soft-grid-bg absolute inset-0 opacity-40" />
-        <div className="relative mx-auto max-w-7xl px-6 py-14 md:py-20">
-          <Reveal>
+      <JsonLd data={pageSchema} />
+
+      <section className={styles.hero}>
+        <div className={styles.heroBackdrop}>
+          <Image
+            src="/hero/raf-bg.jpg"
+            alt=""
+            fill
+            priority
+            className={styles.coverImage}
+            sizes="100vw"
+          />
+        </div>
+        <div className={styles.heroShade} />
+
+        <div className={styles.heroGrid}>
+          <Reveal className={styles.heroCopy}>
             <SectionTitle
-              eyebrow={`${brand} Yedek Parça`}
-              title={`${brand} Marka Araçlara Uygun Yedek Parça Çözümleri`}
-              description={brandDescriptions[brand]}
+              as="h1"
+              size="display"
+              eyebrow={`${brand} yedek parça`}
+              title={`${brand} aracınız için doğru parçayı birlikte bulalım.`}
+              description={detail.description}
+              tone="light"
             />
+
+            <div className={styles.heroActions}>
+              <TrackedLink
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                eventName="whatsapp_click"
+                eventLocation={`${detail.slug}_hero`}
+                className={styles.whatsappButton}
+              >
+                <MessageCircle size={20} /> WhatsApp’tan parça sorun
+              </TrackedLink>
+              <TrackedLink
+                href={`tel:${siteConfig.phoneHref}`}
+                eventName="phone_click"
+                eventLocation={`${detail.slug}_hero`}
+                className={styles.phoneButton}
+              >
+                <Phone size={20} /> Hemen arayın
+              </TrackedLink>
+            </div>
+
+            <p className={styles.heroNote}>
+              <Check size={17} /> Marka-model, model yılı ve varsa şasi numarasını
+              iletin; parça uyumluluğunu teyit edelim.
+            </p>
           </Reveal>
 
-          <Reveal delay={90}>
-            <div className="mt-8 grid gap-6 md:grid-cols-[1.15fr_0.85fr]">
-              <div className="rounded-[2rem] border border-zinc-200 bg-white p-8 shadow-sm">
-                <p className="text-lg leading-8 text-zinc-600">
-                  Kayasan Otomotiv olarak {brand} marka araçlar için mekanik,
-                  kaporta, elektrik ve bakım ürünlerinde güvenilir tedarik
-                  sağlıyoruz. Doğru parçayı hızlı şekilde ulaştırmak ve müşteri
-                  memnuniyetini ön planda tutmak temel hizmet anlayışımızdır.
-                </p>
+          <Reveal className={styles.brandPanel} delay={80}>
+            <div className={styles.brandLogo}>
+              <Image
+                src={detail.logo}
+                alt={`${brand} logosu`}
+                fill
+                className={styles.containImage}
+                sizes="180px"
+              />
+            </div>
+            <p className={styles.panelLabel}>{brand} parça desteği</p>
+            <h2>Satıştan önce parça teyidi</h2>
+            <ul>
+              <li><BadgeCheck size={17} /> Şasi veya OEM koduyla kontrol</li>
+              <li><PackageCheck size={17} /> Mağazadan teslim veya kargo</li>
+              <li><ShieldCheck size={17} /> Farklı üretici seçenekleri</li>
+            </ul>
+            <TrackedLink
+              href={`tel:${siteConfig.phoneHref}`}
+              eventName="phone_click"
+              eventLocation={`${detail.slug}_info_panel`}
+              className={styles.panelPhone}
+              aria-label={`${siteConfig.phoneDisplay} numarasını ara`}
+            >
+              <span>Telefon</span>
+              <strong>{siteConfig.phoneDisplay}</strong>
+            </TrackedLink>
+          </Reveal>
+        </div>
+      </section>
 
-                <p className="mt-4 text-lg leading-8 text-zinc-600">
-                  {brand} araçlara yönelik geniş parça kataloğumuzda triger
-                  setlerinden radyatörlere, ön takım parçalarından far ve tampon
-                  gruplarına, sensörlerden bakım malzemelerine kadar çok sayıda
-                  ürün grubu yer almaktadır.
-                </p>
+      <section className={styles.modelsSection}>
+        <div className={styles.container}>
+          <Reveal>
+            <SectionTitle
+              eyebrow="Model yelpazesi"
+              title={`${brand} modelleri için yedek parça desteği`}
+              description={`Aşağıdaki ${brand} modelleri ve farklı motor seçenekleri için ürün teyidi sağlayabiliyoruz.`}
+            />
+          </Reveal>
+          <Reveal className={styles.modelGrid} delay={60}>
+            {models.map((model) => (
+              <div key={model.slug}>
+                <span>{brand}</span>
+                <strong>{model.name}</strong>
               </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
 
-              <div className="rounded-[2rem] border border-zinc-200 bg-zinc-900 p-8 text-white shadow-sm">
-                <div className="inline-flex rounded-2xl bg-white/10 p-3">
-                  <Sparkles size={22} />
-                </div>
+      <section className={styles.groupsSection}>
+        <div className={styles.container}>
+          <Reveal>
+            <SectionTitle
+              eyebrow="Parça grupları"
+              title={`${brand} için temel ürün grupları`}
+              description="Aracın versiyonuna göre ürün değişebilir. Bu nedenle katalog bilgisini araç bilgileriyle birlikte teyit ediyoruz."
+              align="center"
+            />
+          </Reveal>
+          <Reveal className={styles.groupGrid} delay={60}>
+            {productGroups.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title}>
+                  <Icon size={25} />
+                  <h2>{item.title}</h2>
+                  <p>{item.description}</p>
+                </article>
+              );
+            })}
+          </Reveal>
+        </div>
+      </section>
 
-                <h3 className="mt-5 text-2xl font-bold tracking-tight">
-                  {brand} için parça mı arıyorsun?
-                </h3>
-
-                <div className="mt-6 space-y-3 text-zinc-200">
-                  <div className="inline-flex items-start gap-2">
-                    <CheckCircle2 size={18} className="mt-0.5 text-green-400" />
-                    Hemen bizimle iletişime geç.
-                  </div>
-                  <div className="inline-flex items-start gap-2">
-                    <CheckCircle2 size={18} className="mt-0.5 text-green-400" />
-                    Araç bilgine veya şasi numarasına göre doğru parçayı birlikte
-                    belirleyelim.
-                  </div>
-                  <div className="inline-flex items-start gap-2">
-                    <CheckCircle2 size={18} className="mt-0.5 text-green-400" />
-                    Uygun marka ve fiyat seçeneklerini şeffaf şekilde sunalım.
-                  </div>
-                  <div className="inline-flex items-start gap-2">
-                    <CheckCircle2 size={18} className="mt-0.5 text-green-400" />
-                    İstersen gel al, istersen Türkiye geneline gönderim sağlayalım.
-                  </div>
-                </div>
-
-                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                  <TrackedLink
-                    href={whatsappLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    conversionId={CONVERSION_ID}
-                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-green-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-600"
-                  >
-                    <MessageCircle size={16} />
-                    WhatsApp ile Sor
-                  </TrackedLink>
-
-                  <TrackedLink
-                    href={`tel:${siteConfig.phoneHref}`}
-                    conversionId={CONVERSION_ID}
-                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-200"
-                  >
-                    <Phone size={16} />
-                    Hemen Ara
-                  </TrackedLink>
-                </div>
-              </div>
+      <section className={styles.catalogSection}>
+        <div className={styles.container}>
+          <Reveal>
+            <div className={styles.catalogHeading}>
+              <SectionTitle
+                eyebrow="Katalogdan seçkiler"
+                title={`${brand} için sık talep edilen parçalar`}
+                description="Aşağıdaki liste genel ürün gruplarından bir seçkidir; tam katalog için ürünler sayfasını inceleyebilirsiniz."
+              />
+              <Link href="/urunler" className={styles.inlineLink}>
+                Tüm kataloğa git <ArrowRight size={18} />
+              </Link>
             </div>
           </Reveal>
-        </div>
-      </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <Reveal>
-          <SectionTitle
-            eyebrow="Parça Grupları"
-            title={`${brand} İçin Öne Çıkan Yedek Parça Grupları`}
-            description={`${brand} marka araçlara yönelik başlıca parça ve bakım ürünlerimizi aşağıda inceleyebilirsiniz.`}
-          />
-        </Reveal>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {productHighlights.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <Reveal key={item.title} delay={index * 70}>
-                <div className="rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-                  <div className="mb-5 inline-flex rounded-2xl bg-zinc-100 p-4">
-                    <Icon size={24} />
-                  </div>
-                  <h3 className="text-2xl font-semibold tracking-tight text-zinc-900">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 leading-8 text-zinc-600">{item.description}</p>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="border-y border-zinc-200 bg-zinc-50">
-        <div className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-          <Reveal>
-            <SectionTitle
-              eyebrow="Model Yelpazesi"
-              title={`${brand} Modelleri`}
-              description={`${brand} marka araçlarda sık karşılaşılan modeller için doğru yedek parça desteği sağlıyoruz.`}
-            />
+          <Reveal className={styles.partsGrid} delay={60}>
+            {featuredParts.map((item) => (
+              <div key={`${item.category}-${item.slug}`}>
+                <span>{item.category}</span>
+                <strong>{item.name}</strong>
+              </div>
+            ))}
           </Reveal>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {models.map((model, index) => (
-              <Reveal key={model.slug} delay={index * 25}>
-                <div className="rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
-                  <p className="text-lg font-semibold text-zinc-900">
-                    {brand} {model.name}
-                  </p>
-                  <p className="mt-1 text-sm text-zinc-600">
-                    Yedek parça çözümleri
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <Reveal>
-          <SectionTitle
-            eyebrow="Parça Kataloğu"
-            title={`${brand} İçin Geniş Parça Kataloğu`}
-            description={`Genel parça listemiz içerisindeki çok sayıda ürün grubu ${brand} araçlar için talep edilen başlıca yedek parçaları kapsamaktadır.`}
-          />
-        </Reveal>
-
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {featuredParts.map((item, index) => (
-            <Reveal key={`${item.slug}-${index}`} delay={index * 20}>
-              <div className="flex items-center gap-3 rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-sm">
-                <BadgeCheck size={18} className="shrink-0 text-green-600" />
-                <div>
-                  <p className="font-medium text-zinc-800">{item.name}</p>
-                  <p className="text-xs text-zinc-500">{item.category}</p>
-                </div>
+          <Reveal className={styles.categoryStrip} delay={80}>
+            {topCategories.map((category) => (
+              <div key={category.name}>
+                <span>{category.name}</span>
+                <strong>{category.count}</strong>
               </div>
-            </Reveal>
-          ))}
+            ))}
+          </Reveal>
         </div>
-
-        <Reveal delay={120}>
-          <div className="mt-8 rounded-[2rem] border border-zinc-200 bg-zinc-50 p-6">
-            <p className="leading-8 text-zinc-600">
-              Katalog yapımızda toplam <strong>{partsCatalog.length}</strong> farklı
-              parça adı yer almaktadır. Bu yapı; {brand} marka araçlar için motor,
-              bakım, şanzıman, fren, ön takım, süspansiyon, elektrik, kaporta,
-              soğutma ve diğer birçok ürünü kapsayacak şekilde hazırlanmıştır.
-            </p>
-          </div>
-        </Reveal>
       </section>
 
-      <section className="border-y border-zinc-200 bg-zinc-50">
-        <div className="mx-auto max-w-7xl px-6 py-16 md:py-20">
+      <section className={styles.combinationsSection}>
+        <div className={styles.container}>
           <Reveal>
             <SectionTitle
-              eyebrow="Kategori Bazlı Dağılım"
-              title={`${brand} İçin Talep Edilen Parça Kategorileri`}
-              description={`${brand} marka araçlarda sık sorulan ürünleri kategori bazında aşağıda görebilirsiniz.`}
+              eyebrow="Model bazlı destek"
+              title={`${brand} modeliniz için talep oluşturun`}
+              description="Modelinizi açın, sık çalıştığımız ürün gruplarını görün ve araç bilgilerinizi hazır mesajla bize iletin. Kesin ürün kodu şasi ve motor bilgisiyle belirlenir."
             />
           </Reveal>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {topCategories.map((item, index) => (
-              <Reveal key={item.category} delay={index * 30}>
-                <div className="rounded-2xl border border-zinc-200 bg-white px-5 py-5 shadow-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="font-semibold text-zinc-900">
-                      {item.category}
-                    </span>
-                    <span className="rounded-full bg-zinc-100 px-3 py-1 text-sm font-semibold text-zinc-700">
-                      {item.count}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-zinc-600">
-                    {brand} araçlara yönelik {item.category.toLowerCase()} grubunda
-                    çok sayıda ürün adı katalog yapımız içerisinde yer almaktadır.
+          <Reveal className={styles.accordion} delay={60}>
+            {combinationModels.map((model, index) => (
+              <details key={model.slug} open={index === 0}>
+                <summary>
+                  <span>{brand} {model.name} parça desteği</span>
+                  <ChevronDown size={20} />
+                </summary>
+                <div className={styles.accordionContent}>
+                  <p>
+                    {brand} {model.name} için mekanik, bakım, elektrik ve kaporta
+                    gruplarında ürün teyidi sağlayabiliyoruz. Model yılı, motor
+                    bilgisi ve mümkünse şasi numarası doğru eşleşmeyi hızlandırır.
                   </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <Reveal>
-          <SectionTitle
-            eyebrow="Model + Parça Kombinasyonları"
-            title={`${brand} İçin Sık Aranan Parça Kombinasyonları`}
-            description={`${brand} modelleri için kullanıcıların sıklıkla aradığı parça kombinasyonlarını aşağıda örnek olarak görebilirsiniz.`}
-          />
-        </Reveal>
-
-        <div className="mt-10 space-y-8">
-          {seoCombinationModels.map((model, modelIndex) => (
-            <Reveal key={model.slug} delay={modelIndex * 40}>
-              <div className="rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-sm">
-                <h3 className="text-2xl font-semibold tracking-tight text-zinc-900">
-                  {brand} {model.name} İçin Parçalar
-                </h3>
-
-                <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                  {seoCombinationParts.map((part, partIndex) => (
-                    <div
-                      key={`${model.slug}-${part.slug}-${partIndex}`}
-                      className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3"
-                    >
-                      <p className="text-sm font-medium leading-6 text-zinc-800">
-                        {brand} {model.name} {part.name}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="mt-5 leading-8 text-zinc-600">
-                  {brand} {model.name} için{" "}
-                  {seoCombinationParts
-                    .slice(0, 5)
-                    .map((item) => item.name.toLowerCase())
-                    .join(", ")}{" "}
-                  ve daha birçok farklı üründe Kayasan Otomotiv stok ve tedarik
-                  desteği sunmaktadır. Doğru ürün teyidi için bizimle hızlıca
-                  iletişime geçebilirsiniz.
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-t border-zinc-200 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-          <Reveal>
-            <div className="rounded-[2rem] border border-zinc-200 bg-zinc-900 p-8 text-white shadow-sm md:p-10">
-              <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-center">
-                <div>
-                  <SectionTitle
-                    eyebrow="Hızlı İletişim"
-                    title={`${brand} Yedek Parça İçin Hızlı Destek`}
-                    description={`${brand} marka araçlara uygun mekanik, elektrik, kaporta ve bakım ürünleri için bizimle hemen iletişime geçebilirsiniz.`}
-                  />
-
-                  <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <TrackedLink
-                      href={whatsappLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      conversionId={CONVERSION_ID}
-                      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-green-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
-                    >
-                      <MessageCircle size={18} />
-                      WhatsApp ile Yazın
-                    </TrackedLink>
-
-                    <TrackedLink
-                      href={`tel:${siteConfig.phoneHref}`}
-                      conversionId={CONVERSION_ID}
-                      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-200"
-                    >
-                      <Phone size={18} />
-                      Hemen Ara
-                    </TrackedLink>
-
-                    <a
-                      href={siteConfig.directionsUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-white/20 bg-transparent px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-                    >
-                      <Route size={18} />
-                      Yol Tarifi Al
-                    </a>
+                  <div className={styles.accordionTags}>
+                    {modelSupportCategories.map((category) => (
+                      <span key={`${model.slug}-${category}`}>{category}</span>
+                    ))}
                   </div>
-                </div>
-
-                <div className="rounded-[2rem] bg-white/10 p-6 text-white">
-                  <p className="text-sm text-zinc-300">İletişim</p>
-                  <p className="mt-2 text-3xl font-bold">{siteConfig.phoneDisplay}</p>
-                  <p className="mt-3 leading-7 text-zinc-300">
-                    {brand} parça bilgisi, araç uyumluluğu ve fiyat soruları için
-                    doğrudan bize ulaşabilirsiniz.
-                  </p>
-
                   <TrackedLink
-                    href={whatsappLink}
+                    href={getWhatsAppLink(
+                      [
+                        `Merhaba, ${brand} ${model.name} için yedek parça bilgisi almak istiyorum.`,
+                        "",
+                        "Model yılı:",
+                        "Motor bilgisi:",
+                        "Aradığım parça:",
+                        "Varsa şasi no / OEM kodu:",
+                      ].join("\n")
+                    )}
                     target="_blank"
-                    rel="noreferrer"
-                    conversionId={CONVERSION_ID}
-                    className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-green-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-600"
+                    rel="noopener noreferrer"
+                    eventName="whatsapp_click"
+                    eventLocation={`${detail.slug}_${model.slug}_accordion`}
+                    className={styles.accordionAction}
                   >
-                    <MessageCircle size={16} />
-                    WhatsApp’tan Yazın
+                    <MessageCircle size={17} /> Bu model için parça sorun
                     <ArrowRight size={16} />
                   </TrackedLink>
                 </div>
-              </div>
-            </div>
+              </details>
+            ))}
           </Reveal>
         </div>
+      </section>
+
+      <section className={styles.ctaSection}>
+        <Reveal className={styles.ctaBox}>
+          <div>
+            <p>{brand} yedek parça desteği</p>
+            <h2>Aracınızın bilgilerini gönderin, parça seçeneklerini konuşalım.</h2>
+            <span>
+              Uyum, güncel ürün durumu ve fiyat bilgisi için doğrudan bize ulaşın.
+            </span>
+          </div>
+          <div className={styles.ctaActions}>
+            <TrackedLink
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              eventName="whatsapp_click"
+              eventLocation={`${detail.slug}_cta`}
+              className={styles.whatsappButton}
+            >
+              <MessageCircle size={19} /> WhatsApp ile yazın
+            </TrackedLink>
+            <TrackedLink
+              href={`tel:${siteConfig.phoneHref}`}
+              eventName="phone_click"
+              eventLocation={`${detail.slug}_cta`}
+              className={styles.phoneButton}
+            >
+              <Phone size={19} /> {siteConfig.phoneDisplay}
+            </TrackedLink>
+            <TrackedLink
+              href={siteConfig.directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              eventName="direction_click"
+              eventLocation={`${detail.slug}_cta`}
+              className={styles.directionButton}
+            >
+              <Route size={19} /> Yol tarifi
+            </TrackedLink>
+          </div>
+        </Reveal>
       </section>
     </main>
   );

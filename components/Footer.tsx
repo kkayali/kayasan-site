@@ -1,6 +1,9 @@
+// Dosya: components/Footer.tsx
+
 import Image from "next/image";
 import Link from "next/link";
 import {
+  ArrowUpRight,
   Facebook,
   Instagram,
   MapPin,
@@ -8,175 +11,165 @@ import {
   Phone,
 } from "lucide-react";
 import TrackedLink from "@/components/TrackedLink";
-import { siteConfig } from "@/data/site";
+import { getWhatsAppLink, siteConfig } from "@/data/site";
+import styles from "./Footer.module.css";
 
-const CONVERSION_ID = "AW-18057403546/PdT-CL-voZscEJq5uKJD";
+const brandLinks = [
+  ["Volkswagen", "/volkswagen-yedek-parca"],
+  ["Audi", "/audi-yedek-parca"],
+  ["Skoda", "/skoda-yedek-parca"],
+  ["Seat", "/seat-yedek-parca"],
+  ["Porsche", "/porsche-yedek-parca"],
+] as const;
 
 export default function Footer() {
-  const whatsappLink = `${siteConfig.whatsappHref}?text=${encodeURIComponent(
-    siteConfig.whatsappMessage
-  )}`;
+  const whatsappLink = getWhatsAppLink();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-zinc-200 bg-zinc-950 text-zinc-200">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-3">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="relative h-16 w-16 overflow-hidden rounded-full border border-zinc-700 bg-white shadow-sm">
+    <footer className={styles.footer}>
+      <div className={styles.ctaWrap}>
+        <div className={styles.ctaCopy}>
+          <p className={styles.eyebrow}>Parçayı birlikte teyit edelim</p>
+          <h2>Aracınızın bilgilerini gönderin, hızlıca dönüş yapalım.</h2>
+          <p>
+            Marka, model, model yılı ve mümkünse şasi numarası ya da OEM kodu
+            doğru parçaya ulaşmamızı hızlandırır.
+          </p>
+        </div>
+        <div className={styles.ctaActions}>
+          <TrackedLink
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            eventName="whatsapp_click"
+            eventLocation="footer_cta"
+            className={styles.whatsappButton}
+          >
+            <MessageCircle size={19} />
+            WhatsApp ile yazın
+          </TrackedLink>
+          <TrackedLink
+            href={`tel:${siteConfig.phoneHref}`}
+            eventName="phone_click"
+            eventLocation="footer_cta"
+            className={styles.callButton}
+          >
+            <Phone size={19} />
+            {siteConfig.phoneDisplay}
+          </TrackedLink>
+        </div>
+      </div>
+
+      <div className={styles.grid}>
+        <div className={styles.identity}>
+          <Link href="/" className={styles.brand}>
+            <span className={styles.logoWrap}>
               <Image
                 src={siteConfig.miniLogoPath}
-                alt={`${siteConfig.companyName} mini logo`}
+                alt=""
                 fill
-                className="object-contain p-0.5"
-                sizes="64px"
+                className={styles.logo}
+                sizes="60px"
               />
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold">{siteConfig.companyName}</h3>
-              <p className="text-sm text-zinc-400">
-                1993’ten beri VAG grubu parça tedariği
-              </p>
-            </div>
-          </div>
-
-          <p className="mt-4 max-w-sm leading-7 text-zinc-400">
-            {siteConfig.shortDescription}
+            </span>
+            <span>
+              <strong>{siteConfig.shortName}</strong>
+              <small>1993’ten beri yedek parça</small>
+            </span>
+          </Link>
+          <p className={styles.description}>
+            Volkswagen, Audi, Seat, Skoda ve Porsche araçlar için mekanik,
+            kaporta, elektrik ve bakım grubu yedek parça tedariği.
           </p>
-
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <TrackedLink
-              href={whatsappLink}
-              target="_blank"
-              rel="noreferrer"
-              conversionId={CONVERSION_ID}
-              className="inline-flex items-center gap-2 rounded-2xl bg-green-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-600"
-            >
-              <MessageCircle size={16} />
-              WhatsApp ile Yazın
-            </TrackedLink>
-
-            <TrackedLink
-              href={`tel:${siteConfig.phoneHref}`}
-              conversionId={CONVERSION_ID}
-              className="inline-flex items-center gap-2 rounded-2xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-900"
-            >
-              <Phone size={16} />
-              Hemen Arayın
-            </TrackedLink>
-          </div>
-
-          <div className="mt-5 flex items-center gap-3">
+          <div className={styles.socials}>
             <a
               href={siteConfig.instagramUrl}
               target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-pink-300 bg-gradient-to-br from-pink-500 via-fuchsia-500 to-orange-400 text-white transition hover:scale-105"
+              rel="noopener noreferrer"
+              aria-label="Instagram hesabımız"
             >
-              <Instagram size={18} />
+              <Instagram size={19} />
             </a>
-
             <a
               href={siteConfig.facebookUrl}
               target="_blank"
-              rel="noreferrer"
-              aria-label="Facebook"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-blue-400 bg-blue-600 text-white transition hover:scale-105 hover:bg-blue-700"
+              rel="noopener noreferrer"
+              aria-label="Facebook sayfamız"
             >
-              <Facebook size={18} />
+              <Facebook size={19} />
+            </a>
+            <a
+              href={siteConfig.googleBusinessUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.googleLink}
+            >
+              Google profili
+              <ArrowUpRight size={16} />
             </a>
           </div>
-
-          <a
-            href={siteConfig.googleBusinessUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-5 inline-flex rounded-2xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-900"
-          >
-            Google İşletme Profilini İncele
-          </a>
         </div>
 
         <div>
-          <h4 className="text-lg font-semibold">Hızlı Menü</h4>
-          <div className="mt-4 flex flex-col gap-3 text-zinc-400">
-            <Link href="/" className="hover:text-white">
-              Ana Sayfa
-            </Link>
-            <Link href="/hakkimizda" className="hover:text-white">
-              Hakkımızda
-            </Link>
-            <Link href="/urunler" className="hover:text-white">
-              Ürünler
-            </Link>
-            <Link href="/iletisim" className="hover:text-white">
-              İletişim
-            </Link>
-          </div>
+          <h3>Sayfalar</h3>
+          <nav className={styles.linkList} aria-label="Alt menü">
+            <Link href="/">Ana Sayfa</Link>
+            <Link href="/hakkimizda">Hakkımızda</Link>
+            <Link href="/urunler">Ürünler</Link>
+            <Link href="/iletisim">İletişim</Link>
+          </nav>
         </div>
 
         <div>
-          <h4 className="text-lg font-semibold">İletişim</h4>
-          <div className="mt-4 space-y-4 text-zinc-400">
-            <div className="flex items-start gap-3">
-              <Phone size={18} className="mt-1" />
-              <TrackedLink
-                href={`tel:${siteConfig.phoneHref}`}
-                conversionId={CONVERSION_ID}
-                className="hover:text-white"
-              >
-                {siteConfig.phoneDisplay}
-              </TrackedLink>
-            </div>
+          <h3>Markalar</h3>
+          <nav className={styles.linkList} aria-label="Marka sayfaları">
+            {brandLinks.map(([name, href]) => (
+              <Link href={href} key={href}>
+                {name} Yedek Parça
+              </Link>
+            ))}
+          </nav>
+        </div>
 
-            <div className="flex items-start gap-3">
-              <MessageCircle size={18} className="mt-1 text-green-400" />
-              <TrackedLink
-                href={whatsappLink}
-                target="_blank"
-                rel="noreferrer"
-                conversionId={CONVERSION_ID}
-                className="hover:text-white"
-              >
-                WhatsApp üzerinden ulaşın
-              </TrackedLink>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <MapPin size={18} className="mt-1" />
-              <p>{siteConfig.addressLine}</p>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Instagram size={18} className="mt-1 text-pink-400" />
-              <a
-                href={siteConfig.instagramUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-white"
-              >
-                Instagram hesabımızı ziyaret edin
-              </a>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Facebook size={18} className="mt-1 text-blue-400" />
-              <a
-                href={siteConfig.facebookUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-white"
-              >
-                Facebook sayfamızı ziyaret edin
-              </a>
-            </div>
+        <div>
+          <h3>İletişim</h3>
+          <div className={styles.contactList}>
+            <TrackedLink
+              href={`tel:${siteConfig.phoneHref}`}
+              eventName="phone_click"
+              eventLocation="footer_contact"
+            >
+              <Phone size={18} />
+              <span>{siteConfig.phoneDisplay}</span>
+            </TrackedLink>
+            <TrackedLink
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              eventName="whatsapp_click"
+              eventLocation="footer_contact"
+            >
+              <MessageCircle size={18} />
+              <span>WhatsApp üzerinden yazın</span>
+            </TrackedLink>
+            <TrackedLink
+              href={siteConfig.directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              eventName="direction_click"
+              eventLocation="footer_contact"
+            >
+              <MapPin size={18} />
+              <span>{siteConfig.addressLine}</span>
+            </TrackedLink>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-zinc-800 px-6 py-5 text-center text-sm text-zinc-500">
-        © 2026 {siteConfig.companyName}. Tüm hakları saklıdır.
+      <div className={styles.bottom}>
+        <span>© {year} {siteConfig.shortName}. Tüm hakları saklıdır.</span>
+        <span>İstanbul’dan Türkiye geneline yedek parça tedariği</span>
       </div>
     </footer>
   );

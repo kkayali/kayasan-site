@@ -1,0 +1,68 @@
+/* Dosya: components/MobileContactBar.module.css */
+.bar {
+  display: none;
+}
+
+@media (max-width: 47.99rem) {
+  .bar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: grid;
+    isolation: isolate;
+    min-height: 4.5rem;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 0.55rem;
+    border-top: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.96);
+    padding-top: 0.55rem;
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+    padding-bottom: calc(0.55rem + env(safe-area-inset-bottom));
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    box-shadow: 0 -12px 30px rgba(17, 19, 21, 0.09);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    animation: mobileBarIn 380ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
+  }
+
+  .bar a {
+    display: inline-flex;
+    min-height: 3.1rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    border-radius: 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 800;
+    touch-action: manipulation;
+    transition: transform 140ms ease, filter 140ms ease;
+  }
+
+  .call {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .whatsapp {
+    background: var(--accent);
+    color: #082d16;
+  }
+
+  .bar a:active {
+    transform: scale(0.98);
+    filter: brightness(0.97);
+  }
+}
+
+@keyframes mobileBarIn {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

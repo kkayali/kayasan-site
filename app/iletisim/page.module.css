@@ -1,0 +1,375 @@
+/* Dosya: app/iletisim/page.module.css */
+.hero {
+  position: relative;
+  min-height: 38rem;
+  overflow: hidden;
+  background: #111315;
+}
+
+.heroImage,
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+}
+
+.coverImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.heroOverlay {
+  background: linear-gradient(90deg, rgba(17, 19, 21, 0.97) 0%, rgba(17, 19, 21, 0.9) 50%, rgba(17, 19, 21, 0.55) 100%);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding: clamp(4.75rem, 10vw, 8rem) 1.25rem;
+}
+
+.heroActions {
+  display: flex;
+  margin-top: 2.2rem;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.whatsappButton,
+.phoneButton,
+.directionButton {
+  display: inline-flex;
+  min-height: 3.45rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 0.9rem;
+  padding: 0.85rem 1.15rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  transition: transform 170ms ease, background-color 170ms ease;
+}
+
+.whatsappButton {
+  background: var(--accent);
+  color: #082d16;
+}
+
+.phoneButton {
+  background: #fff;
+  color: var(--ink);
+}
+
+.directionButton {
+  border: 1px solid #52585e;
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+}
+
+.whatsappButton:hover,
+.phoneButton:hover,
+.directionButton:hover {
+  transform: translateY(-2px);
+}
+
+.contactSection,
+.checklistSection {
+  padding-block: clamp(4.75rem, 9vw, 7.5rem);
+}
+
+.contactSection {
+  background: #fff;
+}
+
+.contactGrid {
+  display: grid;
+  max-width: var(--container);
+  margin-inline: auto;
+  grid-template-columns: minmax(21rem, 0.82fr) minmax(0, 1.18fr);
+  align-items: stretch;
+  gap: 1rem;
+  padding-inline: 1.25rem;
+}
+
+.infoPanel,
+.mapPanel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.infoPanel {
+  padding: clamp(1.6rem, 4vw, 2.5rem);
+}
+
+.panelEyebrow {
+  color: #08783b;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.infoPanel > h2 {
+  margin-top: 0.65rem;
+  color: var(--ink);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 780;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.infoList {
+  display: grid;
+  margin-top: 2rem;
+}
+
+.infoList > div {
+  display: grid;
+  grid-template-columns: 2.8rem minmax(0, 1fr);
+  gap: 0.8rem;
+  border-top: 1px solid var(--line);
+  padding-block: 1rem;
+}
+
+.iconWrap {
+  display: inline-flex;
+  width: 2.8rem;
+  height: 2.8rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  background: var(--surface-soft);
+  color: #08783b;
+}
+
+.infoList > div > span:last-child {
+  display: grid;
+  min-width: 0;
+}
+
+.infoList small {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.infoList a,
+.infoList strong {
+  margin-top: 0.15rem;
+  color: var(--ink);
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.infoList a:hover {
+  color: #08783b;
+}
+
+.socialBox {
+  margin-top: 1rem;
+  border-radius: 0.9rem;
+  background: var(--surface-soft);
+  padding: 1rem;
+}
+
+.socialBox > span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.socialBox > div {
+  display: flex;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.socialBox a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: #fff;
+  padding: 0.55rem 0.7rem;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.mapPanel {
+  position: relative;
+  min-height: 39rem;
+  overflow: hidden;
+  background: var(--surface-strong);
+}
+
+.mapPanel iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 39rem;
+  border: 0;
+  filter: saturate(0.82) contrast(1.02);
+}
+
+.mapPanel > a {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  display: inline-flex;
+  min-height: 3.15rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 0.85rem;
+  background: rgba(17, 19, 21, 0.92);
+  padding: 0.75rem 1rem;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  backdrop-filter: blur(8px);
+}
+
+.checklistSection {
+  border-top: 1px solid var(--line);
+  background: var(--surface-soft);
+}
+
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.checklist {
+  display: grid;
+  margin-top: 3rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.checklist article {
+  min-height: 13rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #fff;
+  padding: 1.4rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.checklist svg {
+  color: #08783b;
+}
+
+.checklist h2 {
+  margin-top: 2.75rem;
+  color: var(--ink);
+  font-size: 1.08rem;
+  font-weight: 780;
+}
+
+.checklist p {
+  margin-top: 0.45rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.checklistAction {
+  display: flex;
+  margin-top: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-radius: var(--radius-md);
+  background: var(--ink);
+  padding: 1.3rem 1.5rem;
+  color: #fff;
+}
+
+.checklistAction > div {
+  display: grid;
+}
+
+.checklistAction span {
+  margin-top: 0.1rem;
+  color: #aeb6bd;
+  font-size: 0.84rem;
+}
+
+.checklistAction a {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.8rem;
+  background: var(--accent);
+  padding: 0.75rem 1rem;
+  color: #082d16;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+@media (max-width: 58rem) {
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mapPanel,
+  .mapPanel iframe {
+    min-height: 31rem;
+  }
+
+  .checklist {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  .hero {
+    min-height: 0;
+  }
+
+  .heroContent {
+    padding-block: 4rem;
+  }
+
+  .heroActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .mapPanel,
+  .mapPanel iframe {
+    min-height: 25rem;
+  }
+
+  .checklist {
+    grid-template-columns: 1fr;
+  }
+
+  .checklist article {
+    min-height: 0;
+  }
+
+  .checklist h2 {
+    margin-top: 2rem;
+  }
+
+  .checklistAction {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .checklistAction a {
+    justify-content: center;
+  }
+}

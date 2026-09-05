@@ -1,0 +1,378 @@
+/* Dosya: components/Navbar.module.css */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  isolation: isolate;
+  border-bottom: 1px solid rgba(221, 225, 228, 0.9);
+  background: rgba(255, 255, 255, 0.92);
+  padding-top: env(safe-area-inset-top);
+  box-shadow: 0 5px 22px rgba(17, 19, 21, 0.035);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.inner {
+  display: flex;
+  min-height: var(--header-height);
+  max-width: var(--container);
+  margin-inline: auto;
+  align-items: center;
+  gap: 1rem;
+  padding-right: max(1.25rem, env(safe-area-inset-right));
+  padding-left: max(1.25rem, env(safe-area-inset-left));
+}
+
+.brand {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoWrap {
+  position: relative;
+  width: 3.1rem;
+  height: 3.1rem;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.logo {
+  object-fit: contain;
+}
+
+.brandCopy {
+  display: grid;
+  min-width: 0;
+  line-height: 1.15;
+}
+
+.brandCopy strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brandCopy small {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.desktopNav {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.navLink {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.3rem;
+  border: 0;
+  border-radius: 0.7rem;
+  background: transparent;
+  padding: 0.6rem 0.7rem;
+  color: #464c52;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.navLink:hover,
+.active {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+.active {
+  box-shadow: inset 0 0 0 1px rgba(18, 140, 74, 0.22);
+  color: #08783b;
+}
+
+.products {
+  position: relative;
+}
+
+.products::after {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 0.8rem;
+  content: "";
+}
+
+.chevron,
+.chevronOpen {
+  transition: transform 160ms ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  left: 50%;
+  width: 18.5rem;
+  transform: translateX(-50%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #fff;
+  padding: 0.5rem;
+  box-shadow: var(--shadow-md);
+  animation: dropdownIn 160ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dropdown[hidden] {
+  display: none;
+}
+
+.dropdown a {
+  display: block;
+  border-radius: 0.7rem;
+  padding: 0.72rem 0.8rem;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.dropdown a:hover,
+.dropdownActive {
+  background: var(--surface-soft);
+  color: var(--ink) !important;
+}
+
+.desktopActions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.whatsappAction,
+.phoneAction {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border-radius: 0.75rem;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 800;
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.whatsappAction {
+  background: var(--accent-soft);
+  color: #08783b;
+}
+
+.phoneAction {
+  background: var(--ink);
+  color: #fff;
+}
+
+.whatsappAction:hover,
+.phoneAction:hover {
+  transform: translateY(-1px);
+}
+
+.whatsappAction:hover {
+  background: #d9f7e5;
+}
+
+.phoneAction:hover {
+  background: #303438;
+}
+
+.menuButton {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: #fff;
+  cursor: pointer;
+}
+
+.mobilePanel {
+  display: none;
+}
+
+@media (max-width: 71rem) {
+  .brandCopy small {
+    display: none;
+  }
+
+  .desktopNav {
+    gap: 0;
+  }
+
+  .navLink {
+    padding-inline: 0.55rem;
+  }
+}
+
+@media (max-width: 62rem) {
+  .desktopNav,
+  .desktopActions {
+    display: none;
+  }
+
+  .menuButton {
+    display: inline-flex;
+  }
+
+  .mobilePanel {
+    display: block;
+    max-height: calc(100svh - var(--header-height));
+    overflow-y: auto;
+    border-top: 1px solid var(--line);
+    background: #fff;
+    padding-top: 0.75rem;
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    overscroll-behavior: contain;
+    box-shadow: 0 18px 38px rgba(17, 19, 21, 0.1);
+    animation: mobileMenuIn 190ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .mobileNav {
+    display: grid;
+    max-width: var(--container);
+    margin-inline: auto;
+  }
+
+  .mobileNav > a,
+  .mobileProducts > summary {
+    display: flex;
+    min-height: 3.25rem;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 750;
+    list-style: none;
+  }
+
+  .mobileProducts > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobileProducts[open] > summary svg {
+    transform: rotate(180deg);
+  }
+
+  .mobileProducts > summary svg {
+    transition: transform 160ms ease;
+  }
+
+  .mobileProducts > div {
+    display: grid;
+    border-bottom: 1px solid var(--line);
+    padding: 0.35rem 0 0.65rem 0.75rem;
+  }
+
+  .mobileProducts > div a {
+    padding: 0.55rem 0.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 650;
+  }
+
+  .mobileActive {
+    color: #08783b !important;
+  }
+
+  .mobileHint {
+    max-width: var(--container);
+    margin: 1rem auto 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .mobileActions {
+    display: grid;
+    max-width: var(--container);
+    margin: 1rem auto 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+}
+
+@media (max-width: 34rem) {
+  .inner {
+    padding-right: max(0.9rem, env(safe-area-inset-right));
+    padding-left: max(0.9rem, env(safe-area-inset-left));
+  }
+
+  .logoWrap {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+
+  .brandCopy strong {
+    max-width: 12rem;
+    font-size: 0.98rem;
+  }
+
+  .mobilePanel {
+    padding-right: max(0.9rem, env(safe-area-inset-right));
+    padding-left: max(0.9rem, env(safe-area-inset-left));
+  }
+
+  .mobileActions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -0.35rem);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes mobileMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (hover: none) {
+  .whatsappAction:hover,
+  .phoneAction:hover {
+    transform: none;
+  }
+}
