@@ -10,6 +10,8 @@ import Navbar from "@/components/Navbar";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { siteConfig } from "@/data/site";
 
+const ADSENSE_CLIENT_ID = "ca-pub-8230285568916898";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
   applicationName: siteConfig.shortName,
@@ -25,7 +27,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   keywords: [...siteConfig.primaryKeywords],
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+  },
   robots: {
     index: true,
     follow: true,
@@ -39,8 +43,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico.png", type: "image/png" },
-      { url: "/favicon.png", type: "image/png" },
+      {
+        url: "/favicon.ico.png",
+        type: "image/png",
+      },
+      {
+        url: "/favicon.png",
+        type: "image/png",
+      },
     ],
     apple: "/favicon.png",
     shortcut: "/favicon.ico.png",
@@ -68,6 +78,7 @@ export const metadata: Metadata = {
     images: [`${siteConfig.domain}${siteConfig.ogImage}`],
   },
   other: {
+    "google-adsense-account": ADSENSE_CLIENT_ID,
     "geo.region": "TR-34",
     "geo.placename": `${siteConfig.district}, ${siteConfig.city}`,
     "geo.position": `${siteConfig.geo.latitude};${siteConfig.geo.longitude}`,
@@ -146,14 +157,26 @@ const websiteSchema = {
   url: siteConfig.domain,
   description: siteConfig.shortDescription,
   inLanguage: "tr-TR",
-  publisher: { "@id": `${siteConfig.domain}/#business` },
+  publisher: {
+    "@id": `${siteConfig.domain}/#business`,
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="tr">
+      <head>
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+          crossOrigin="anonymous"
+        />
+      </head>
+
       <body>
         <a className="skipLink" href="#ana-icerik">
           Ana içeriğe geç
@@ -163,11 +186,17 @@ export default function RootLayout({
           src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.googleAnalyticsId}`}
           strategy="afterInteractive"
         />
+
         <Script id="google-analytics-and-ads" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+
             window.gtag = gtag;
+
             gtag('js', new Date());
             gtag('config', '${siteConfig.googleAnalyticsId}');
             gtag('config', '${siteConfig.googleAdsId}');
@@ -178,7 +207,9 @@ export default function RootLayout({
         <JsonLd data={localBusinessSchema} />
 
         <Navbar />
+
         <div id="ana-icerik">{children}</div>
+
         <Footer />
         <WhatsAppButton />
         <MobileContactBar />
